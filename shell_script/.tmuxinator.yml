@@ -1,0 +1,14 @@
+name: iris_mng
+root: ./
+startup_window: iris_mng
+windows:
+  - image_transport:
+      layout: tiled
+      panes:
+        - sleep 1; rqt_image_view
+        - sleep 1; rosrun iris_followup udp_image.py
+        - sleep 2; rosrun iris_followup aruco_node.py
+  - manager:
+      layout: tiled
+      panes:
+        - roslaunch iris_followup manager.launch
