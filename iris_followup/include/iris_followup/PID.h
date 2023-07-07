@@ -36,8 +36,6 @@
 
 #include <iostream>
 #include <cmath>
-#include <stdexcept>
-#include <iomanip>
 
 const double PI = M_PI;
 const double NEG_PI = -M_PI;
@@ -128,6 +126,7 @@ public:
     double getDerivativeError() const;
     double getOutput() const;
     double getInterval() const;
+    void getParameters(double *Kp, double *Ki, double *Kd, double *Kf);
 
     // Setters
     void setParameters(double Kp, double Ki, double Kd, double Kf);

@@ -1,4 +1,4 @@
-#include "../lib/library.h"
+#include "PID.h"
 
 class PDController {
 private:
@@ -51,8 +51,3 @@ public:
         return pd_output + pi_output + ff_output;
     }
 };
-
-
-int main() {
-    return 0;
-}

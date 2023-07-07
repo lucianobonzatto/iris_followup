@@ -2,7 +2,7 @@
 #define FOLLOW_CONTROLLER_H
 
 #include "general.h"
-#include "PID.h"
+#include "controllers.cpp"
 
 class Follow_Controller
 {
@@ -19,10 +19,10 @@ private:
 
     ros::Time track_last_timestamp;
 
-    PID x_controller;
-    PID y_controller;
-    PID z_controller;
-    PID yaw_controller;
+    // PID x_controller;
+    // PID y_controller;
+    // PID z_controller;
+    // PID yaw_controller;
     
     double x_reference;
     double y_reference;
