@@ -209,6 +209,7 @@ add_executable(manager_node
                 include/iris_followup/state_machine.cpp
                 include/iris_followup/follow_controller.cpp
                 include/iris_followup/land_controller.cpp
+                include/iris_followup/controllers.cpp
                 include/iris_followup/PID.cpp
                 include/iris_followup/drone_control.cpp
                 include/iris_followup/ros_client.cpp

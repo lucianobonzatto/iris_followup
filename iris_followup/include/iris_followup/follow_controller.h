@@ -2,7 +2,7 @@
 #define FOLLOW_CONTROLLER_H
 
 #include "general.h"
-#include "PID.h"
+#include "controllers.cpp"
 
 class Follow_Controller
 {
@@ -17,10 +17,12 @@ public:
 private:
     geometry_msgs::Twist velocity;
 
-    PID x_controller;
-    PID y_controller;
-    PID z_controller;
-    PID yaw_controller;
+    ros::Time track_last_timestamp;
+
+    // PID x_controller;
+    // PID y_controller;
+    // PID z_controller;
+    // PID yaw_controller;
     
     double x_reference;
     double y_reference;

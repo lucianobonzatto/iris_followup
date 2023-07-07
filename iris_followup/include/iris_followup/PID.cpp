@@ -1,5 +1,4 @@
-#include "library.h"
-
+#include "PID.h"
 
 PID::PID(double Kp, double Ki, double Kd, double Kf, double dt, double out_max, double out_min,
          bool derivative_on_measurement, bool conditional_integration, bool feedforward_enabled, bool angular_input)
@@ -120,6 +119,14 @@ double PID::getOutput() const {
     return output;
 }
 
+void PID::getParameters(double *Kp, double *Ki, double *Kd, double *Kf)
+{
+    *Kp = this->Kp;
+    *Ki = this->Ki;
+    *Kd = this->Kd;
+    *Kf = this->Kf;
+}
+
 void PID::setParameters(double Kp, double Ki, double Kd, double Kf) {
     this->Kp = Kp;
     this->Ki = Ki;
@@ -164,48 +171,6 @@ double PID::normalize_angle(double angle, const double lower_bound, const double
 
     return angle;
 }
-
-#include <iomanip>  // Include this at the top of your file
-
-void PID::debug(DebugLevel level) const {
-    std::system("clear");
-    std::cout << std::left;
-
-    switch (level) {
-        case DebugLevel::BasicInfo:
-            std::cout << std::setw(30) << "Current output: " << output << "\n";
-            break;
-        case DebugLevel::ParameterInfo:
-            std::cout << std::setw(30) << "Parameters [Kp, Ki, Kd, Kf]: " << "[" << Kp << ", " << Ki << ", " << Kd << ", " << Kf << "]" << "\n";
-            std::cout << std::setw(30) << "Current dt: " << dt << "\n";
-            break;
-        case DebugLevel::DetailedInfo:
-            std::cout << "==================== PID Controller State ====================\n";
-            std::cout << std::setw(30) << "Kp:" << Kp << "\n";
-            std::cout << std::setw(30) << "Ki:" << Ki << "\n";
-            std::cout << std::setw(30) << "Kd:" << Kd << "\n";
-            std::cout << std::setw(30) << "Kf:" << Kf << "\n";
-            std::cout << std::setw(30) << "dt:" << dt << "\n";
-            std::cout << std::setw(30) << "Error:" << error << "\n";
-            std::cout << std::setw(30) << "Integral Error:" << integral_error << "\n";
-            std::cout << std::setw(30) << "Differential Last Error:" << differential_last_error << "\n";
-            std::cout << std::setw(30) << "Output:" << output << "\n";
-            std::cout << std::setw(30) << "Output Min/Max:" << "[" << output_min << ", " << output_max << "]" << "\n";
-            std::cout << std::setw(30) << "Reference Variable:" << reference_process_variable << "\n";
-            std::cout << std::setw(30) << "Estimated Variable:" << estimated_process_variable << "\n";
-            std::cout << std::setw(30) << "Last Process Variable:" << last_process_variable << "\n";
-            std::cout << std::setw(30) << "Derivative on Measurement:" << std::boolalpha << is_derivative_on_measurement << "\n";
-            std::cout << std::setw(30) << "Conditional Integration:" << std::boolalpha << is_conditional_integration << "\n";
-            std::cout << std::setw(30) << "Feedforward Enabled:" << std::boolalpha << is_feedforward_enabled << "\n";
-            std::cout << std::setw(30) << "Angular Input:" << std::boolalpha << is_angular_input << "\n";
-            std::cout << "=============================================================\n";
-            break;
-    }
-
-    std::cout.flush();
-}
-
-
 
 double PID::getInterval() const {
     return dt;
