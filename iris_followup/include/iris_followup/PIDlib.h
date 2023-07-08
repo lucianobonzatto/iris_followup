@@ -1,11 +1,11 @@
-#ifndef PIDCLASS_LIBRARY_H
-#define PIDCLASS_LIBRARY_H
+#ifndef PIDCLASS_PIDLIB_H
+#define PIDCLASS_PIDLIB_H
 
 /*
  * Library Name: PID Library
  * Version: 1.0.0
  * Date: 07/05/2023
- * Author: Paulo Costa, José Lima, João Afonso Braun Neto
+ * Author: João Afonso Braun Neto, Paulo Costa, José Lima
  * Contact: jabraunneto1@gmail.com
  *
  * Description:
@@ -36,6 +36,9 @@
 
 #include <iostream>
 #include <cmath>
+#include <stdexcept>
+#include <iomanip>
+#include <tuple>
 
 const double PI = M_PI;
 const double NEG_PI = -M_PI;
@@ -49,6 +52,7 @@ enum class DebugLevel {
 // PID is a class that represents a Proportional Integral Derivative (PID) controller.
 
 class PID {
+
 
 private:
 
@@ -126,10 +130,18 @@ public:
     double getDerivativeError() const;
     double getOutput() const;
     double getInterval() const;
-    void getParameters(double *Kp, double *Ki, double *Kd, double *Kf);
+    std::tuple<double, double, double, double> getParameters() const;
+    double getKp() const;
+    double getKi() const;
+    double getKd() const;
+    double getKf() const;
 
     // Setters
     void setParameters(double Kp, double Ki, double Kd, double Kf);
+    void setKp(double Kp);
+    void setKi(double Ki);
+    void setKd(double Kd);
+    void setKf(double Kf);
     void set_dt(double dt);
     void setOutputLimits(double out_max, double out_min);
 
@@ -137,4 +149,4 @@ public:
     void debug(DebugLevel level) const;
 };
 
-#endif //PIDCLASS_LIBRARY_H
+#endif //PIDCLASS_PIDLIB_H
