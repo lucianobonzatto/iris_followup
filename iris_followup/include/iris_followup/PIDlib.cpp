@@ -1,11 +1,13 @@
-#include "PID.h"
+#include "PIDlib.h"
+
 
 PID::PID(double Kp, double Ki, double Kd, double Kf, double dt, double out_max, double out_min,
          bool derivative_on_measurement, bool conditional_integration, bool feedforward_enabled, bool angular_input)
         : Kp(Kp), Ki(Ki), Kd(Kd), Kf(Kf), dt(dt), output_max(out_max), output_min(out_min),
           is_derivative_on_measurement(derivative_on_measurement), is_conditional_integration(conditional_integration),
           is_feedforward_enabled(feedforward_enabled), is_angular_input(angular_input), reference_process_variable(0),
-          estimated_process_variable(0), differential_last_error(0), integral_error(0), error(0), last_error(0), last_process_variable(0), output(0) {
+          estimated_process_variable(0), differential_last_error(0), integral_error(0), error(0), last_error(0),
+          last_process_variable(0), output(0) {
     // Input validation
     if (Kp < 0 || Ki < 0 || Kd < 0 || Kf < 0) {
         throw std::invalid_argument("The controller gains should be positive.");
@@ -47,7 +49,8 @@ void PID::compute(double new_reference_process_variable, double new_estimated_pr
 
     // Calculate PID output with or without feedforward term
     if (is_feedforward_enabled) {
-        computed_output = Kp * error + Ki * temporary_sum_error + Kd* differential_error + Kf * reference_process_variable;
+        computed_output =
+                Kp * error + Ki * temporary_sum_error + Kd * differential_error + Kf * reference_process_variable;
     } else {
         computed_output = Kp * error + Ki * temporary_sum_error + Kd * differential_error;
     }
@@ -55,14 +58,16 @@ void PID::compute(double new_reference_process_variable, double new_estimated_pr
     // Anti-windup: back calculation or conditional integration
     if (is_conditional_integration) {
         // Conditional integration
-        if ((computed_output < output_max && computed_output > output_min) || (computed_output >= output_max && error < 0) || (computed_output <= output_min && error > 0)) {
+        if ((computed_output < output_max && computed_output > output_min) ||
+            (computed_output >= output_max && error < 0) || (computed_output <= output_min && error > 0)) {
             integral_error = temporary_sum_error;
         }
     } else {
         // Back-calculation
         if (Ki != 0) {
-            integral_error = (computed_output - Kp * error - Kd * differential_error - (is_feedforward_enabled ? Kf * reference_process_variable : 0)) / Ki;
-        } else{
+            integral_error = (computed_output - Kp * error - Kd * differential_error -
+                              (is_feedforward_enabled ? Kf * reference_process_variable : 0)) / Ki;
+        } else {
             integral_error = 0;
         }
     }
@@ -119,14 +124,6 @@ double PID::getOutput() const {
     return output;
 }
 
-void PID::getParameters(double *Kp, double *Ki, double *Kd, double *Kf)
-{
-    *Kp = this->Kp;
-    *Ki = this->Ki;
-    *Kd = this->Kd;
-    *Kf = this->Kf;
-}
-
 void PID::setParameters(double Kp, double Ki, double Kd, double Kf) {
     this->Kp = Kp;
     this->Ki = Ki;
@@ -172,6 +169,86 @@ double PID::normalize_angle(double angle, const double lower_bound, const double
     return angle;
 }
 
+#include <iomanip>  // Include this at the top of your file
+
+void PID::debug(DebugLevel level) const {
+    std::system("clear");
+    std::cout << std::left;
+
+    switch (level) {
+        case DebugLevel::BasicInfo:
+            std::cout << std::setw(30) << "Current output: " << output << "\n";
+            break;
+        case DebugLevel::ParameterInfo:
+            std::cout << std::setw(30) << "Parameters [Kp, Ki, Kd, Kf]: " << "[" << Kp << ", " << Ki << ", " << Kd
+                      << ", " << Kf << "]" << "\n";
+            std::cout << std::setw(30) << "Current dt: " << dt << "\n";
+            break;
+        case DebugLevel::DetailedInfo:
+            std::cout << "==================== PID Controller State ====================\n";
+            std::cout << std::setw(30) << "Kp:" << Kp << "\n";
+            std::cout << std::setw(30) << "Ki:" << Ki << "\n";
+            std::cout << std::setw(30) << "Kd:" << Kd << "\n";
+            std::cout << std::setw(30) << "Kf:" << Kf << "\n";
+            std::cout << std::setw(30) << "dt:" << dt << "\n";
+            std::cout << std::setw(30) << "Error:" << error << "\n";
+            std::cout << std::setw(30) << "Integral Error:" << integral_error << "\n";
+            std::cout << std::setw(30) << "Differential Last Error:" << differential_last_error << "\n";
+            std::cout << std::setw(30) << "Output:" << output << "\n";
+            std::cout << std::setw(30) << "Output Min/Max:" << "[" << output_min << ", " << output_max << "]" << "\n";
+            std::cout << std::setw(30) << "Reference Variable:" << reference_process_variable << "\n";
+            std::cout << std::setw(30) << "Estimated Variable:" << estimated_process_variable << "\n";
+            std::cout << std::setw(30) << "Last Process Variable:" << last_process_variable << "\n";
+            std::cout << std::setw(30) << "Derivative on Measurement:" << std::boolalpha << is_derivative_on_measurement
+                      << "\n";
+            std::cout << std::setw(30) << "Conditional Integration:" << std::boolalpha << is_conditional_integration
+                      << "\n";
+            std::cout << std::setw(30) << "Feedforward Enabled:" << std::boolalpha << is_feedforward_enabled << "\n";
+            std::cout << std::setw(30) << "Angular Input:" << std::boolalpha << is_angular_input << "\n";
+            std::cout << "=============================================================\n";
+            break;
+    }
+
+    std::cout.flush();
+}
+
+
 double PID::getInterval() const {
     return dt;
+}
+
+std::tuple<double, double, double, double> PID::getParameters() const {
+    return std::make_tuple(Kp, Ki, Kd, Kf);
+}
+
+double PID::getKp() const {
+    return Kp;
+}
+
+double PID::getKi() const {
+    return Ki;
+}
+
+double PID::getKd() const {
+    return Kd;
+}
+
+double PID::getKf() const {
+    return Kf;
+}
+
+void PID::setKp(double Kp) {
+    this->Kp = Kp;
+}
+
+void PID::setKi(double Ki) {
+    this->Ki = Ki;
+}
+
+void PID::setKd(double Kd) {
+    this->Kd = Kd;
+}
+
+void PID::setKf(double Kf) {
+    this->Kf = Kf;
 }
