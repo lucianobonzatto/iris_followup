@@ -1,0 +1,19 @@
+newmtl December Eve_150ca431-a68c-4476-b1e9-81fc9720aef7
+Kd 1.000 1.000 1.000
+d 1.000
+map_Kd aruco.jpg
+newmtl Nordic 1_9366b82a-70ec-4d00-9a5d-ab1714225e1d
+Kd 0.937 0.937 0.937
+d 1.000
+newmtl Nordic_44123053-d2ae-4080-97eb-25285bb3b594
+Kd 0.937 0.937 0.937
+d 1.000
+newmtl Bazaar 1_626f1158-61e7-4630-80f8-21889c7c1167
+Kd 0.937 0.937 0.937
+d 1.000
+newmtl Bazaar_0b96c58a-47ef-43b8-b814-1f53e8f40d71
+Kd 0.937 0.937 0.937
+d 1.000
+newmtl Secret Garden_8d0d8ce2-a344-43f2-9a7e-15b1fa4912a5
+Kd 0.937 0.937 0.937
+d 1.000
