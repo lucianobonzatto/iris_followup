@@ -22,6 +22,7 @@ void Manager::print_parameters()
   cout << "================" << endl;
   // cout << "\ttrack: " << track.header.stamp << endl;
   cout << "\tjoy: " << joy.header.stamp << endl;
+  cout << "\todom: " << odom.header.stamp << endl;
   cout << "\tstate: " << states_name[state_machine.get_state()] << endl;
   follow_controller.print_parameters();
   land_controller.print_parameters();
