@@ -125,6 +125,11 @@ void Manager::send_velocity(geometry_msgs::Twist velocity)
                             velocity.angular.z);
 }
 
+void Manager::set_odom(nav_msgs::Odometry newOdom)
+{
+  odom = newOdom;
+}
+
 void Manager::set_joy(sensor_msgs::Joy newJoy)
 {
   joy = newJoy;

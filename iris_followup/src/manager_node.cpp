@@ -4,6 +4,9 @@
 #include "drone_control.h"
 
 Manager principal;
+static void odomCallback(const nav_msgs::Odometry::ConstPtr& msg){
+  principal.set_odom(*msg);
+}
 static void joyCallback(const sensor_msgs::Joy::ConstPtr& msg){
   principal.set_joy(*msg);
 }
@@ -20,6 +23,7 @@ int main(int argc, char *argv[])
   ROSClient ros_client(nh);
   DroneControl drone_control(&ros_client);
 
+  ros::Subscriber odom_sub = nh->subscribe<nav_msgs::Odometry>("/mavros/local_position/odom", 1, &odomCallback);
   ros::Subscriber joy_sub = nh->subscribe<sensor_msgs::Joy>("/joy_control", 1, &joyCallback);
   ros::Subscriber parameters_sub = nh->subscribe<std_msgs::Float32MultiArray>("/PID/parameters", 1, &parametersCallback);
 
