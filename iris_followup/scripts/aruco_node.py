@@ -31,7 +31,7 @@ class ImageRepublisher:
         if len(markers) > 0:
             ids = ids.flatten()
             image = aruco.drawDetectedMarkers(image, markers, ids)
-            rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(markers, 1.0, self.camera_matrix, self.distortion_coeffs)
+            rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(markers, 0.12, self.camera_matrix, self.distortion_coeffs)
     
             for i in range(len(ids)):
                 if (ids[i] != 0):
@@ -45,8 +45,18 @@ class ImageRepublisher:
                 teste['id'] = ids[i]
                 teste['position'] = tvec
                 teste['orientation'] = np.degrees(rotation_matrix_euler)
+                print(teste)
 
                 pose_msg = PoseStamped()
+
+                pose_msg.pose.position.x = tvec[0]
+                pose_msg.pose.position.y = tvec[1]
+                pose_msg.pose.position.z = tvec[2]
+
+                pose_msg.pose.orientation.x = np.degrees(rotation_matrix_euler)[0]
+                pose_msg.pose.orientation.y = np.degrees(rotation_matrix_euler)[1]
+                pose_msg.pose.orientation.z = np.degrees(rotation_matrix_euler)[2]
+
                 self.pose_pub.publish(pose_msg)
 
         republished_msg = self.bridge.cv2_to_imgmsg(image, encoding='rgb8')
