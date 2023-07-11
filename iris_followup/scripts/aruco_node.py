@@ -14,7 +14,7 @@ class ImageRepublisher:
     def __init__(self):
         self.image_pub = rospy.Publisher('/iris/usb_cam/aruco', Image, queue_size=10)
         self.image_sub = rospy.Subscriber('/iris/usb_cam/image_raw', Image, self.image_callback)
-        self.pose_pub = rospy.Publisher('/pose', PoseStamped, queue_size=10)
+        self.pose_pub = rospy.Publisher('/iris/pose', PoseStamped, queue_size=10)
 
         self.camera_matrix = np.array([[277.191356, 0.        , 320.5],
                                        [0.        , 277.191356, 240.5],
