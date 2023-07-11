@@ -1,4 +1,5 @@
 .vscode
+shell_script/.tmuxinator.yml 
 *.xml
 *.iml
 iris_followup/cmake-build-debug
