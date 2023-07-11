@@ -11,13 +11,11 @@ public:
     ~Follow_Controller();
 
     void print_parameters();
-    geometry_msgs::Twist get_velocity();
+    geometry_msgs::Twist get_velocity(geometry_msgs::Pose pose);    
     void update_parameters(float *newParameters);
 
 private:
     geometry_msgs::Twist velocity;
-
-    ros::Time track_last_timestamp;
 
     PID x_controller;
     PID y_controller;

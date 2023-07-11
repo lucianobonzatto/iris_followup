@@ -10,12 +10,6 @@ Follow_Controller::Follow_Controller()
     y_controller.setParameters(0, 0, 0, 0);
     z_controller.setParameters(0, 0, 0, 0);
     yaw_controller.setParameters(0, 0, 0, 0);
-
-    // controller.set_dt();
-    // controller.setOutputLimits();
-    // controller.enableAngularInput();
-    // controller.enableConditionalIntegration();
-    // controller.enableFeedforward();
 }
 
 Follow_Controller::~Follow_Controller()
@@ -42,22 +36,6 @@ void Follow_Controller::print_parameters()
          << "\tKd_z:   " << Kd_z <<   "\tKf_z:   " << Kf_z << endl;
     cout << "\tKp_yaw: " << Kp_yaw << "\tKi_yaw: " << Ki_yaw
          << "\tKd_yaw: " << Kd_yaw << "\tKf_yaw: " << Kf_yaw << endl;
-
-    // switch (level) {
-    //     case DebugLevel::BasicInfo:
-    //         std::cout << "Current output: " << output << "\n";
-    //         break;
-    //     case DebugLevel::ParameterInfo:
-    //         std::cout << "Parameters [Kp, Ki, Kd, Kf]: [" << Kp << ", " << Ki << ", " << Kd << ", " << Kf << "]\n";
-    //         std::cout << "Current dt: " << dt << "\n";
-    //         break;
-    //     case DebugLevel::DetailedInfo:
-    //         std::cout << "Current error: " << error << "\n";
-    //         std::cout << "Current integral error: " << integral_error << "\n";
-    //         std::cout << "Current output: " << output << "\n";
-    //         std::cout << "Output limits: [" << output_min << ", " << output_max << "]\n";
-    //         break;
-    // }
 }
 
 void Follow_Controller::update_parameters(float *newParameters)
@@ -68,7 +46,7 @@ void Follow_Controller::update_parameters(float *newParameters)
     yaw_controller.setParameters(newParameters[9], newParameters[10], newParameters[11], 0);
 }
 
-geometry_msgs::Twist Follow_Controller::get_velocity()
+geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::Pose pose)
 {
     velocity.linear.x = 0;
     velocity.linear.y = 0;
