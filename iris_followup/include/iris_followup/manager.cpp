@@ -126,6 +126,11 @@ void Manager::send_velocity(geometry_msgs::Twist velocity)
                             velocity.angular.z);
 }
 
+void Manager::set_pose(geometry_msgs::Pose newPose)
+{
+  pose = newPose;
+}
+
 void Manager::set_odom(nav_msgs::Odometry newOdom)
 {
   odom = newOdom;
