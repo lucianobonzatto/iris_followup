@@ -4,6 +4,7 @@ import cv2
 import rospy
 import numpy as np
 import cv2.aruco as aruco
+from math import pi, sin, cos
 from sensor_msgs.msg import Image
 from geometry_msgs.msg import PoseStamped
 from cv_bridge import CvBridge, CvBridgeError
@@ -40,6 +41,7 @@ class ImageRepublisher:
                 rvec = rvecs[i][0]
                 tvec = tvecs[i][0]
                 rotation_matrix_euler = R.from_rotvec(rvec).as_euler('ZYX')
+                
 
                 teste = {'id': -1, 'position':[0,0,0], 'orientation':[0,0,0]}
                 teste['id'] = ids[i]
@@ -49,13 +51,13 @@ class ImageRepublisher:
 
                 pose_msg = PoseStamped()
 
-                pose_msg.pose.position.x = tvec[0]
-                pose_msg.pose.position.y = tvec[1]
+                pose_msg.pose.position.x = tvec[1] + 0.438340129 * tvec[2]
+                pose_msg.pose.position.y = tvec[0] + 0.581929754 * tvec[2]
                 pose_msg.pose.position.z = tvec[2]
 
-                pose_msg.pose.orientation.x = np.degrees(rotation_matrix_euler)[0]
-                pose_msg.pose.orientation.y = np.degrees(rotation_matrix_euler)[1]
-                pose_msg.pose.orientation.z = np.degrees(rotation_matrix_euler)[2]
+                pose_msg.pose.orientation.x = rotation_matrix_euler[0]
+                pose_msg.pose.orientation.y = rotation_matrix_euler[1]
+                pose_msg.pose.orientation.z = rotation_matrix_euler[2]
 
                 self.pose_pub.publish(pose_msg)
 
