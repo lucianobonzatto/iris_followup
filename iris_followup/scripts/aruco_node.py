@@ -4,6 +4,7 @@ import cv2
 import rospy
 import numpy as np
 import cv2.aruco as aruco
+from math import pi, sin, cos
 from sensor_msgs.msg import Image
 from geometry_msgs.msg import PoseStamped
 from cv_bridge import CvBridge, CvBridgeError
@@ -13,7 +14,7 @@ class ImageRepublisher:
     def __init__(self):
         self.image_pub = rospy.Publisher('/iris/usb_cam/aruco', Image, queue_size=10)
         self.image_sub = rospy.Subscriber('/iris/usb_cam/image_raw', Image, self.image_callback)
-        self.pose_pub = rospy.Publisher('/pose', PoseStamped, queue_size=10)
+        self.pose_pub = rospy.Publisher('/iris/pose', PoseStamped, queue_size=10)
 
         self.camera_matrix = np.array([[277.191356, 0.        , 320.5],
                                        [0.        , 277.191356, 240.5],
@@ -31,7 +32,7 @@ class ImageRepublisher:
         if len(markers) > 0:
             ids = ids.flatten()
             image = aruco.drawDetectedMarkers(image, markers, ids)
-            rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(markers, 1.0, self.camera_matrix, self.distortion_coeffs)
+            rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(markers, 0.12, self.camera_matrix, self.distortion_coeffs)
     
             for i in range(len(ids)):
                 if (ids[i] != 0):
@@ -40,13 +41,24 @@ class ImageRepublisher:
                 rvec = rvecs[i][0]
                 tvec = tvecs[i][0]
                 rotation_matrix_euler = R.from_rotvec(rvec).as_euler('ZYX')
+                
 
                 teste = {'id': -1, 'position':[0,0,0], 'orientation':[0,0,0]}
                 teste['id'] = ids[i]
                 teste['position'] = tvec
                 teste['orientation'] = np.degrees(rotation_matrix_euler)
+                print(teste)
 
                 pose_msg = PoseStamped()
+
+                pose_msg.pose.position.x = tvec[1] + 0.438340129 * tvec[2]
+                pose_msg.pose.position.y = tvec[0] + 0.581929754 * tvec[2]
+                pose_msg.pose.position.z = tvec[2]
+
+                pose_msg.pose.orientation.x = rotation_matrix_euler[0]
+                pose_msg.pose.orientation.y = rotation_matrix_euler[1]
+                pose_msg.pose.orientation.z = rotation_matrix_euler[2]
+
                 self.pose_pub.publish(pose_msg)
 
         republished_msg = self.bridge.cv2_to_imgmsg(image, encoding='rgb8')
