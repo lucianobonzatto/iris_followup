@@ -1,7 +1,7 @@
 #include "PID.h"
 
 PID::PID()
-    : Kp(0), Ki(0), Kd(0), Kf(0), dt(0), output_max(0), output_min(0),
+    : Kp(0), Ki(0), Kd(0), Kf(0), dt(10), output_max(0), output_min(0),
       is_derivative_on_measurement(0), is_conditional_integration(0),
       is_feedforward_enabled(0), is_angular_input(0), reference_process_variable(0),
       estimated_process_variable(0), integral_error(0), error(0), last_error(0), last_process_variable(0), output(0)
