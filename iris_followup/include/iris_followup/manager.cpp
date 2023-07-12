@@ -39,39 +39,39 @@ void Manager::print_parameters()
 void Manager::update()
 {
   FOLLOW_CONTROL_action();
-  // STATES state = state_machine.get_state();
-  // switch (state)
-  // {
-  // case STATES::STOPPED:
-  //   STOPPED_action();
-  //   break;
-  // case STATES::TAKE_OFF:
-  //   TAKE_OFF_action();
-  //   break;
-  // case STATES::LAND:
-  //   LAND_action();
-  //   break;
-  // case STATES::JOY_CONTROL:
-  //   JOY_CONTROL_action();
-  //   break;
-  // case STATES::LAND_CONTROL:
-  //   LAND_CONTROL_action();
-  //   break;
-  // case STATES::FOLLOW_CONTROL:
-  //   FOLLOW_CONTROL_action();
-  //   break;
-  // default:
-  //   break;
-  // }
+  STATES state = state_machine.get_state();
+  switch (state)
+  {
+  case STATES::STOPPED:
+    STOPPED_action();
+    break;
+  case STATES::TAKE_OFF:
+    TAKE_OFF_action();
+    break;
+  case STATES::LAND:
+    LAND_action();
+    break;
+  case STATES::JOY_CONTROL:
+    JOY_CONTROL_action();
+    break;
+  case STATES::LAND_CONTROL:
+    LAND_CONTROL_action();
+    break;
+  case STATES::FOLLOW_CONTROL:
+    FOLLOW_CONTROL_action();
+    break;
+  default:
+    break;
+  }
 
   if (!parameters.data.empty())
   {
     follow_controller.update_parameters(&parameters.data[0]);
   }
-  // if (state_machine.update_state(joy))
-  // {
-  //   send_velocity(0, 0, 0, 0);
-  // }
+  if (state_machine.update_state(joy))
+  {
+    send_velocity(0, 0, 0, 0);
+  }
 }
 
 void Manager::STOPPED_action()
@@ -121,7 +121,7 @@ void Manager::FOLLOW_CONTROL_action()
   geometry_msgs::Twist velocity;
   velocity = follow_controller.get_velocity(pose);
   cout << "-" << velocity << "-" << endl;
-  // // send_velocity(velocity);
+  send_velocity(velocity);
   cout << "xxxxxxxx" << endl;
 }
 

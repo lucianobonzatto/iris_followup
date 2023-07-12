@@ -21,10 +21,7 @@ private:
     
     TelloPDController pdController;
     
-    double x_reference;
-    double y_reference;
-    double z_reference;
-    double yaw_reference;
+    Pose setpoint;
 };
 
 #endif // FOLLOW_CONTROLLER_H
