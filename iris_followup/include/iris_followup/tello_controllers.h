@@ -1,7 +1,7 @@
 #ifndef TELLO_CONTROLLERS_H
 #define TELLO_CONTROLLERS_H
 
-#include "../../PIDArchitectures/pidArchitectures.h"
+#include "pidArchitectures.h"
 
 struct Pose {
     double x, y, z, theta;
@@ -19,11 +19,25 @@ private:
     PDController controller_theta;
 
 public:
+    TelloPDController(){}
+    
     TelloPDController(PID::Builder builder_x, PID::Builder builder_y, PID::Builder builder_z, PID::Builder builder_theta)
             : controller_x(builder_x),
               controller_y(builder_y),
               controller_z(builder_z),
               controller_theta(builder_theta) {}
+
+    void update_x(double kp, double kd){controller_x.update(kp, kd);}
+    void get_x(double &kp, double &kd){controller_x.getParameters(kp, kd);}
+
+    void update_y(double kp, double kd){controller_y.update(kp, kd);}
+    void get_y(double &kp, double &kd){controller_y.getParameters(kp, kd);}
+
+    void update_z(double kp, double kd){controller_z.update(kp, kd);}
+    void get_z(double &kp, double &kd){controller_z.getParameters(kp, kd);}
+
+    void update_theta(double kp, double kd){controller_theta.update(kp, kd);}
+    void get_theta(double &kp, double &kd){controller_theta.getParameters(kp, kd);}
 
     Speed control(const Pose& setpoint, const Pose& measurement) {
         Speed speed;
