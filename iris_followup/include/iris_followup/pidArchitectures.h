@@ -8,7 +8,25 @@ private:
     PID pdController;
 
 public:
+    PDController() {}
     PDController(PID::Builder builder) : pdController(builder.build()) {}
+
+    void update(double kp, double kd)
+    {
+        pdController.setKp(kp);
+        pdController.setKd(kd);
+    }
+
+    void getParameters(double &kp, double &kd)
+    {
+        kp = pdController.getKp();
+        kd = pdController.getKd();
+    }
+
+    void setDT(double dt)
+    {
+        pdController.set_dt(dt);
+    }
 
     double control(double setpoint, double measurement) {
         pdController.compute(setpoint, measurement);
