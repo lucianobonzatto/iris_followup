@@ -75,12 +75,12 @@ geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::Pose pose)
     }
 
     cout << "x -> " << x_reference << "\t" << pose.position.x << endl;
-    x_controller.compute(x_reference, pose.position.x);
+    // x_controller.compute(x_reference, pose.position.x);
     // y_controller.compute(y_reference, pose.position.y);
     // z_controller.compute(z_reference, pose.position.z);
     // yaw_controller.compute(yaw_reference, pose.orientation.x);
 
-    velocity.linear.x = x_controller.getOutput();
+    // velocity.linear.x = x_controller.getOutput();
     // velocity.linear.y = y_controller.getOutput();
     // velocity.linear.z = z_controller.getOutput();
     // velocity.angular.z = yaw_controller.getOutput();
