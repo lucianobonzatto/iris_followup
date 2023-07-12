@@ -1,7 +1,7 @@
 #ifndef TELLO_CONTROLLERS_H
 #define TELLO_CONTROLLERS_H
 
-#include "pidArchitectures.h"
+#include "../../PIDArchitectures/pidArchitectures.h"
 
 struct Pose {
     double x, y, z, theta;
