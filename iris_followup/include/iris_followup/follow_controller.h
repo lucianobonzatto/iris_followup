@@ -16,7 +16,9 @@ public:
 
 private:
     ros::Time track_last_timestamp;
-    TelloPDController pdController;
+    
+    TelloParallelPDPIController controller;
+    
     Pose setpoint;
 };
 

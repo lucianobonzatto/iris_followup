@@ -74,22 +74,43 @@ public:
     }
 };
 
-class TelloParallelPDPI_FFController {
+class TelloParallelPDPIController {
 private:
-    ParallelPDPI_FFController controller_x;
-    ParallelPDPI_FFController controller_y;
-    ParallelPDPI_FFController controller_z;
-    ParallelPDPI_FFController controller_theta;
+    ParallelPDPIController controller_x;
+    ParallelPDPIController controller_y;
+    ParallelPDPIController controller_z;
+    ParallelPDPIController controller_theta;
 
 public:
-    TelloParallelPDPI_FFController(PID::Builder builder_x_pd, PID::Builder builder_x_pi, PID::Builder builder_x_ff,
-                                   PID::Builder builder_y_pd, PID::Builder builder_y_pi, PID::Builder builder_y_ff,
-                                   PID::Builder builder_z_pd, PID::Builder builder_z_pi, PID::Builder builder_z_ff,
-                                   PID::Builder builder_theta_pd, PID::Builder builder_theta_pi, PID::Builder builder_theta_ff)
-            : controller_x(builder_x_pd, builder_x_pi, builder_x_ff),
-              controller_y(builder_y_pd, builder_y_pi, builder_y_ff),
-              controller_z(builder_z_pd, builder_z_pi, builder_z_ff),
-              controller_theta(builder_theta_pd, builder_theta_pi, builder_theta_ff) {}
+    TelloParallelPDPIController(){}
+    TelloParallelPDPIController(PID::Builder builder_x_pd, PID::Builder builder_x_pi,
+                                   PID::Builder builder_y_pd, PID::Builder builder_y_pi,
+                                   PID::Builder builder_z_pd, PID::Builder builder_z_pi,
+                                   PID::Builder builder_theta_pd, PID::Builder builder_theta_pi)
+            : controller_x(builder_x_pd, builder_x_pi),
+              controller_y(builder_y_pd, builder_y_pi),
+              controller_z(builder_z_pd, builder_z_pi),
+              controller_theta(builder_theta_pd, builder_theta_pi) {}
+
+    void update_x(double kp_pd, double kd_pd, double kp_pi, double ki_pi)
+    {controller_x.update(kp_pd, kd_pd, kp_pi, ki_pi);}
+    void get_x(double &kp_pd, double &kd_pd, double &kp_pi, double &ki_pi)
+    {controller_x.getParameters(kp_pd, kd_pd, kp_pi, ki_pi);}
+
+    void update_y(double kp_pd, double kd_pd, double kp_pi, double ki_pi)
+    {controller_y.update(kp_pd, kd_pd, kp_pi, ki_pi);}
+    void get_y(double &kp_pd, double &kd_pd, double &kp_pi, double &ki_pi)
+    {controller_y.getParameters(kp_pd, kd_pd, kp_pi, ki_pi);}
+
+    void update_z(double kp_pd, double kd_pd, double kp_pi, double ki_pi)
+    {controller_z.update(kp_pd, kd_pd, kp_pi, ki_pi);}
+    void get_z(double &kp_pd, double &kd_pd, double &kp_pi, double &ki_pi)
+    {controller_z.getParameters(kp_pd, kd_pd, kp_pi, ki_pi);}
+
+    void update_theta(double kp_pd, double kd_pd, double kp_pi, double ki_pi)
+    {controller_theta.update(kp_pd, kd_pd, kp_pi, ki_pi);}
+    void get_theta(double &kp_pd, double &kd_pd, double &kp_pi, double &ki_pi)
+    {controller_theta.getParameters(kp_pd, kd_pd, kp_pi, ki_pi);}
 
     Speed control(const Pose& setpoint, const Pose& measurement) {
         Speed speed;
