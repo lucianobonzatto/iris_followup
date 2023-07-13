@@ -38,6 +38,7 @@ void Manager::print_parameters()
 
 void Manager::update()
 {
+  FOLLOW_CONTROL_action();
   STATES state = state_machine.get_state();
   switch (state)
   {
@@ -116,9 +117,12 @@ void Manager::LAND_CONTROL_action()
 
 void Manager::FOLLOW_CONTROL_action()
 {
+  cout << "xxxxxxxx" << endl;
   geometry_msgs::Twist velocity;
   velocity = follow_controller.get_velocity(pose);
+  cout << "-" << velocity << "-" << endl;
   send_velocity(velocity);
+  cout << "xxxxxxxx" << endl;
 }
 
 void Manager::send_velocity(double x_linear, double y_linear, double z_linear, double angular)
