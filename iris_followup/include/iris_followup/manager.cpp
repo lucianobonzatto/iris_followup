@@ -15,13 +15,22 @@ void Manager::Init(DroneControl *drone_control,
   drone_connection = drone_control;
   joy_linear_velocity = joyLinearVelocity;
   joy_angular_velocity = joyAngularVelocity;
+  pose.position.x = 0;
+  pose.position.y = 0;
+  pose.position.z = 0;
+  pose.orientation.x = 0;
+  pose.orientation.y = 0;
+  pose.orientation.z = 0;
+  pose.orientation.w = 0;
 }
 
 void Manager::print_parameters()
 {
   cout << "================" << endl;
   // cout << "\ttrack: " << track.header.stamp << endl;
+  cout << "\tpose: " << pose << endl;
   cout << "\tjoy: " << joy.header.stamp << endl;
+  cout << "\todom: " << odom.header.stamp << endl;
   cout << "\tstate: " << states_name[state_machine.get_state()] << endl;
   follow_controller.print_parameters();
   land_controller.print_parameters();
@@ -29,6 +38,7 @@ void Manager::print_parameters()
 
 void Manager::update()
 {
+  FOLLOW_CONTROL_action();
   STATES state = state_machine.get_state();
   switch (state)
   {
@@ -107,9 +117,12 @@ void Manager::LAND_CONTROL_action()
 
 void Manager::FOLLOW_CONTROL_action()
 {
+  cout << "xxxxxxxx" << endl;
   geometry_msgs::Twist velocity;
-  velocity = follow_controller.get_velocity();
+  velocity = follow_controller.get_velocity(pose);
+  cout << "-" << velocity << "-" << endl;
   send_velocity(velocity);
+  cout << "xxxxxxxx" << endl;
 }
 
 void Manager::send_velocity(double x_linear, double y_linear, double z_linear, double angular)
@@ -123,6 +136,16 @@ void Manager::send_velocity(geometry_msgs::Twist velocity)
                             velocity.linear.y,
                             velocity.linear.z,
                             velocity.angular.z);
+}
+
+void Manager::set_pose(geometry_msgs::Pose newPose)
+{
+  pose = newPose;
+}
+
+void Manager::set_odom(nav_msgs::Odometry newOdom)
+{
+  odom = newOdom;
 }
 
 void Manager::set_joy(sensor_msgs::Joy newJoy)

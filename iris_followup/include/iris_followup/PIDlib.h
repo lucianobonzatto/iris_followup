@@ -81,6 +81,7 @@ private:
         bool derivative_on_measurement, bool conditional_integration, bool feedforward_enabled, bool angular_input);
 
 public:
+    PID(){}
 // Builder is a nested public class used to construct PID object using Builder Pattern.
     class Builder {
     private:

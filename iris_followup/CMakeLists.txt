@@ -203,14 +203,15 @@ catkin_install_python(PROGRAMS
 ## Testing ##
 #############
 
-add_executable(manager_node
+add_executable( manager_node
                 src/manager_node.cpp
                 include/iris_followup/manager.cpp
                 include/iris_followup/state_machine.cpp
                 include/iris_followup/follow_controller.cpp
                 include/iris_followup/land_controller.cpp
-        include/iris_followup/drone_control.cpp
+                include/iris_followup/drone_control.cpp
                 include/iris_followup/ros_client.cpp
+                include/iris_followup/PIDlib.cpp
 )
 target_link_libraries(manager_node ${catkin_LIBRARIES})
 add_dependencies(manager_node iris_followup_generate_messages_cpp)

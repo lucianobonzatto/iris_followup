@@ -11,8 +11,8 @@
 #include "std_msgs/Float32MultiArray.h"
 // #include "geometry_msgs/Point.h"
 #include "geometry_msgs/Twist.h"
-// #include "geometry_msgs/Pose.h"
-
+#include "geometry_msgs/Pose.h"
+#include "nav_msgs/Odometry.h"
 #include <sensor_msgs/Joy.h>
 
 using namespace std;
