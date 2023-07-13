@@ -2,7 +2,7 @@
 #define FOLLOW_CONTROLLER_H
 
 #include "general.h"
-#include "PID.h"
+#include "tello_controllers.h"
 
 class Follow_Controller
 {
@@ -17,15 +17,11 @@ public:
 private:
     geometry_msgs::Twist velocity;
 
-    PID x_controller;
-    PID y_controller;
-    PID z_controller;
-    PID yaw_controller;
+    ros::Time track_last_timestamp;
     
-    double x_reference;
-    double y_reference;
-    double z_reference;
-    double yaw_reference;
+    TelloPDController pdController;
+    
+    Pose setpoint;
 };
 
 #endif // FOLLOW_CONTROLLER_H
