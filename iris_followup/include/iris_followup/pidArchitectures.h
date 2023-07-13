@@ -3,7 +3,8 @@
 
 #include "PIDlib.h"
 
-class PDController {
+class PDController
+{
 private:
     PID pdController;
 
@@ -28,23 +29,26 @@ public:
         pdController.set_dt(dt);
     }
 
-    double control(double setpoint, double measurement) {
+    double control(double setpoint, double measurement)
+    {
         pdController.compute(setpoint, measurement);
         return pdController.getOutput();
     }
 };
 
-class CascadePDPI_FFController {
+class CascadePDPI_FFController
+{
 private:
     PID pdController;
     PID piController;
 
 public:
     CascadePDPI_FFController(PID::Builder builder_pd, PID::Builder builder_pi)
-            : pdController(builder_pd.build()),
-              piController(builder_pi.build()) {}
+        : pdController(builder_pd.build()),
+          piController(builder_pi.build()) {}
 
-    double control(double setpoint, double pd_measurement, double pi_measurement) {
+    double control(double setpoint, double pd_measurement, double pi_measurement)
+    {
         pdController.compute(setpoint, pd_measurement);
         double pd_output = pdController.getOutput();
         piController.compute(pd_output, pi_measurement);
@@ -52,27 +56,48 @@ public:
     }
 };
 
-class ParallelPDPI_FFController {
+class ParallelPDPIController
+{
 private:
     PID pdController;
     PID piController;
-    PID ffController;
 
 public:
-    ParallelPDPI_FFController(PID::Builder builder_pd, PID::Builder builder_pi, PID::Builder builder_ff)
-            : pdController(builder_pd.build()),
-              piController(builder_pi.build()),
-              ffController(builder_ff.build()) {}
+    ParallelPDPIController() {}
+    ParallelPDPIController(PID::Builder builder_pd, PID::Builder builder_pi)
+        : pdController(builder_pd.build()),
+          piController(builder_pi.build()) {}
 
-    double control(double setpoint, double measurement) {
+    double control(double setpoint, double measurement)
+    {
         pdController.compute(setpoint, measurement);
         double pd_output = pdController.getOutput();
         piController.compute(setpoint, measurement);
         double pi_output = piController.getOutput();
-        ffController.compute(setpoint, measurement);
-        double ff_output = ffController.getOutput();
-        return pd_output + pi_output + ff_output;
+        return pd_output + pi_output;
+    }
+
+    void update(double kp_pd, double kd_pd, double kp_pi, double ki_pi)
+    {
+        pdController.setKp(kp_pd);
+        pdController.setKd(kd_pd);
+        piController.setKp(kp_pi);
+        piController.setKi(ki_pi);
+    }
+
+    void getParameters(double &kp_pd, double &kd_pd, double &kp_pi, double &ki_pi)
+    {
+        kp_pd = pdController.getKp();
+        kd_pd = pdController.getKd();
+        kp_pi = pdController.getKp();
+        ki_pi = pdController.getKi();
+    }
+
+    void setDT(double dt)
+    {
+        pdController.set_dt(dt);
+        piController.set_dt(dt);
     }
 };
 
-#endif //PIDARCHITECTURES_H
+#endif // PIDARCHITECTURES_H
