@@ -15,12 +15,8 @@ public:
     void update_parameters(float *newParameters);
 
 private:
-    geometry_msgs::Twist velocity;
-
     ros::Time track_last_timestamp;
-    
     TelloPDController pdController;
-    
     Pose setpoint;
 };
 

@@ -55,6 +55,8 @@ void Follow_Controller::update_parameters(float *newParameters)
 
 geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::Pose pose)
 {
+    geometry_msgs::Twist velocity;
+    
     velocity.linear.x = 0;
     velocity.linear.y = 0;
     velocity.linear.z = 0;
