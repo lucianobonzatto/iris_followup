@@ -9,10 +9,10 @@ Follow_Controller::Follow_Controller()
 
     PID::Builder builder;
 
-    TelloParallelPDPIController cont(builder, builder,
-                                     builder, builder,
-                                     builder, builder,
-                                     builder, builder);
+    TelloCascadePDPIController cont(builder, builder,
+                                    builder, builder,
+                                    builder, builder,
+                                    builder, builder);
 
     controller = cont;
 }

@@ -36,14 +36,15 @@ public:
     }
 };
 
-class CascadePDPI_FFController
+class CascadePDPIController
 {
 private:
     PID pdController;
     PID piController;
 
 public:
-    CascadePDPI_FFController(PID::Builder builder_pd, PID::Builder builder_pi)
+    CascadePDPIController() {}
+    CascadePDPIController(PID::Builder builder_pd, PID::Builder builder_pi)
         : pdController(builder_pd.build()),
           piController(builder_pi.build()) {}
 
@@ -53,6 +54,28 @@ public:
         double pd_output = pdController.getOutput();
         piController.compute(pd_output, pi_measurement);
         return piController.getOutput();
+    }
+
+    void update(double kp_pd, double kd_pd, double kp_pi, double ki_pi)
+    {
+        pdController.setKp(kp_pd);
+        pdController.setKd(kd_pd);
+        piController.setKp(kp_pi);
+        piController.setKi(ki_pi);
+    }
+
+    void getParameters(double &kp_pd, double &kd_pd, double &kp_pi, double &ki_pi)
+    {
+        kp_pd = pdController.getKp();
+        kd_pd = pdController.getKd();
+        kp_pi = piController.getKp();
+        ki_pi = piController.getKi();
+    }
+
+    void setDT(double dt)
+    {
+        pdController.set_dt(dt);
+        piController.set_dt(dt);
     }
 };
 
