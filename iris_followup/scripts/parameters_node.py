@@ -13,10 +13,10 @@ def publish_array(array):
     pub.publish(msg)
     rate.sleep()
 
-array = [0,0,0,
-         0,0,0,
-         0,0,0,
-         0,0,0]
+array = [0,0,0,0,
+         0,0,0,0,
+         0,0,0,0,
+         0,0,0,0]
 
 with open(file_path, 'r') as file:
         array = [float(value) for value in file.read().split()]
@@ -24,28 +24,34 @@ with open(file_path, 'r') as file:
 # Define a layout for the GUI
 layout = [
     [
-        sg.Text('     X', font=('Helvetica', 16), justification='center'),
+        sg.Text('         X', font=('Helvetica', 16), justification='center'),
         sg.Text('         Y', font=('Helvetica', 16), justification='center'),
         sg.Text('         Z', font=('Helvetica', 16), justification='center'),
         sg.Text('         YAW', font=('Helvetica', 16), justification='center')
     ],
     [
-        sg.Text('P:', font=('Helvetica', 12)), sg.InputText(key='P_X', size=(7, None), default_text=array[0]),
-        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='P_Y', size=(7, None), default_text=array[3]),
-        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='P_Z', size=(7, None), default_text=array[6]),
-        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='P_YAW', size=(7, None), default_text=array[9])
+        sg.Text('pd_P:', font=('Helvetica', 12)), sg.InputText(key='pd_P_X', size=(7, None), default_text=array[0]),
+        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='pd_P_Y', size=(7, None), default_text=array[4]),
+        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='pd_P_Z', size=(7, None), default_text=array[8]),
+        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='pd_P_YAW', size=(7, None), default_text=array[12])
     ],
     [
-        sg.Text('I:  ', font=('Helvetica', 12)), sg.InputText(key='I_X', size=(7, None), default_text=array[1]),
-        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='I_Y', size=(7, None), default_text=array[4]),
-        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='I_Z', size=(7, None), default_text=array[7]),
-        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='I_YAW', size=(7, None), default_text=array[10]),
+        sg.Text('pd_D:', font=('Helvetica', 12)), sg.InputText(key='pd_D_X', size=(7, None), default_text=array[1]),
+        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='pd_D_Y', size=(7, None), default_text=array[5]),
+        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='pd_D_Z', size=(7, None), default_text=array[9]),
+        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='pd_D_YAW', size=(7, None), default_text=array[13]),
     ],
     [
-        sg.Text('D:', font=('Helvetica', 12)), sg.InputText(key='D_X', size=(7, None), default_text=array[2]),
-        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='D_Y', size=(7, None), default_text=array[5]),
-        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='D_Z', size=(7, None), default_text=array[8]),
-        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='D_YAW', size=(7, None), default_text=array[11]),
+        sg.Text('pi_P: ', font=('Helvetica', 12)), sg.InputText(key='pi_P_X', size=(7, None), default_text=array[2]),
+        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='pi_P_Y', size=(7, None), default_text=array[6]),
+        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='pi_P_Z', size=(7, None), default_text=array[10]),
+        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='pi_P_YAW', size=(7, None), default_text=array[14])
+    ],
+    [
+        sg.Text('pi_I:   ', font=('Helvetica', 12)), sg.InputText(key='pi_I_X', size=(7, None), default_text=array[3]),
+        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='pi_I_Y', size=(7, None), default_text=array[7]),
+        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='pi_I_Z', size=(7, None), default_text=array[11]),
+        sg.Text(' ', font=('Helvetica', 12)), sg.InputText(key='pi_I_YAW', size=(7, None), default_text=array[15]),
     ],
     [sg.Button('set', size=(10, 1)), sg.Button('save', size=(10, 1))]
 ]
@@ -64,10 +70,10 @@ while not rospy.is_shutdown():
             file.write(' '.join(str(value) for value in array))
 
     if event == 'set':
-        array = [float(values['P_X']),float(values['I_X']),float(values['D_X']),
-                 float(values['P_Y']),float(values['I_Y']),float(values['D_Y']),
-                 float(values['P_Z']),float(values['I_Z']),float(values['D_Z']),
-                 float(values['P_YAW']),float(values['I_YAW']),float(values['D_YAW']),
+        array = [float(values['pd_P_X']),float(values['pd_D_X']),float(values['pi_P_X']),float(values['pi_I_X']),
+                 float(values['pd_P_Y']),float(values['pd_D_Y']),float(values['pi_P_Y']),float(values['pi_I_Y']),
+                 float(values['pd_P_Z']),float(values['pd_D_Z']),float(values['pi_P_Z']),float(values['pi_I_Z']),
+                 float(values['pd_P_YAW']),float(values['pd_D_YAW']),float(values['pi_P_YAW']),float(values['pi_I_YAW']),
                  ]
 
         try:
