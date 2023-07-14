@@ -28,28 +28,28 @@ void Follow_Controller::print_parameters()
 
     double kp_pd, kd_pd, kp_pi, ki_pi;
     controller.get_x(kp_pd, kd_pd, kp_pi, ki_pi);
-    cout << "\tkp_pd: " << kp_pd
-         << "\tkd_pd: " << kd_pd
-         << "\tkp_pi: " << kp_pi
-         << "\tki_pi: " << ki_pi << endl;
+    cout << "\tx_p_pd: " << kp_pd
+         << "\tx_d_pd: " << kd_pd
+         << "\tx_p_pi: " << kp_pi
+         << "\tx_i_pi: " << ki_pi << endl;
 
     controller.get_y(kp_pd, kd_pd, kp_pi, ki_pi);
-    cout << "\tkp_pd: " << kp_pd
-         << "\tkd_pd: " << kd_pd
-         << "\tkp_pi: " << kp_pi
-         << "\tki_pi: " << ki_pi << endl;
+    cout << "\ty_p_pd: " << kp_pd
+         << "\ty_d_pd: " << kd_pd
+         << "\ty_p_pi: " << kp_pi
+         << "\ty_i_pi: " << ki_pi << endl;
 
     controller.get_z(kp_pd, kd_pd, kp_pi, ki_pi);
-    cout << "\tkp_pd: " << kp_pd
-         << "\tkd_pd: " << kd_pd
-         << "\tkp_pi: " << kp_pi
-         << "\tki_pi: " << ki_pi << endl;
+    cout << "\tz_p_pd: " << kp_pd
+         << "\tz_d_pd: " << kd_pd
+         << "\tz_p_pi: " << kp_pi
+         << "\tz_i_pi: " << ki_pi << endl;
 
     controller.get_theta(kp_pd, kd_pd, kp_pi, ki_pi);
-    cout << "\tkp_pd: " << kp_pd
-         << "\tkd_pd: " << kd_pd
-         << "\tkp_pi: " << kp_pi
-         << "\tki_pi: " << ki_pi << endl;
+    cout << "\tt_p_pd: " << kp_pd
+         << "\tt_d_pd: " << kd_pd
+         << "\tt_p_pi: " << kp_pi
+         << "\tt_i_pi: " << ki_pi << endl;
 }
 
 void Follow_Controller::update_parameters(float *newParameters)

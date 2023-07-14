@@ -89,8 +89,8 @@ public:
     {
         kp_pd = pdController.getKp();
         kd_pd = pdController.getKd();
-        kp_pi = pdController.getKp();
-        ki_pi = pdController.getKi();
+        kp_pi = piController.getKp();
+        ki_pi = piController.getKi();
     }
 
     void setDT(double dt)
