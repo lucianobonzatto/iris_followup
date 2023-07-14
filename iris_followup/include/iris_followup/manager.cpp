@@ -111,7 +111,7 @@ void Manager::LAND_CONTROL_action()
 void Manager::FOLLOW_CONTROL_action()
 {
   geometry_msgs::Twist velocity;
-  velocity = follow_controller.get_velocity(pose.pose);
+  velocity = follow_controller.get_velocity(pose);
   send_velocity(velocity);
 }
 

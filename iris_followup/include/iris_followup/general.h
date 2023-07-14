@@ -12,6 +12,7 @@
 // #include "geometry_msgs/Point.h"
 #include "geometry_msgs/Twist.h"
 #include "geometry_msgs/Pose.h"
+#include "geometry_msgs/PoseStamped.h"
 #include "nav_msgs/Odometry.h"
 #include <sensor_msgs/Joy.h>
 

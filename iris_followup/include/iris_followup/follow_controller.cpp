@@ -53,25 +53,12 @@ void Follow_Controller::update_parameters(float *newParameters)
     pdController.update_theta(newParameters[9], newParameters[11]);
 }
 
-geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::Pose pose)
+geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped poseStamped)
 {
     geometry_msgs::Twist velocity;
-    
-    velocity.linear.x = 0;
-    velocity.linear.y = 0;
-    velocity.linear.z = 0;
+    geometry_msgs::Pose pose = poseStamped.pose;
 
-    velocity.angular.x = 0;
-    velocity.angular.y = 0;
-    velocity.angular.z = 0;
-
-    if ((pose.position.x == 0) &&
-        (pose.position.y == 0) &&
-        (pose.position.z == 0) &&
-        (pose.orientation.x == 0) &&
-        (pose.orientation.y == 0) &&
-        (pose.orientation.z == 0) &&
-        (pose.orientation.w == 0))
+    if (poseStamped.header.stamp.is_zero())
     {
         return velocity;
     }

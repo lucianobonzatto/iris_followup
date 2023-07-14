@@ -11,7 +11,7 @@ public:
     ~Follow_Controller();
 
     void print_parameters();
-    geometry_msgs::Twist get_velocity(geometry_msgs::Pose pose);    
+    geometry_msgs::Twist get_velocity(geometry_msgs::PoseStamped poseStamped);    
     void update_parameters(float *newParameters);
 
 private:
