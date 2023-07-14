@@ -15,13 +15,6 @@ void Manager::Init(DroneControl *drone_control,
   drone_connection = drone_control;
   joy_linear_velocity = joyLinearVelocity;
   joy_angular_velocity = joyAngularVelocity;
-  pose.position.x = 0;
-  pose.position.y = 0;
-  pose.position.z = 0;
-  pose.orientation.x = 0;
-  pose.orientation.y = 0;
-  pose.orientation.z = 0;
-  pose.orientation.w = 0;
 }
 
 void Manager::print_parameters()
@@ -118,7 +111,7 @@ void Manager::LAND_CONTROL_action()
 void Manager::FOLLOW_CONTROL_action()
 {
   geometry_msgs::Twist velocity;
-  velocity = follow_controller.get_velocity(pose);
+  velocity = follow_controller.get_velocity(pose.pose);
   send_velocity(velocity);
 }
 
@@ -135,7 +128,7 @@ void Manager::send_velocity(geometry_msgs::Twist velocity)
                             velocity.angular.z);
 }
 
-void Manager::set_pose(geometry_msgs::Pose newPose)
+void Manager::set_pose(geometry_msgs::PoseStamped newPose)
 {
   pose = newPose;
 }

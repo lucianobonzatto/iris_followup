@@ -20,13 +20,13 @@ public:
     void print_parameters();
     void update();
 
-    void set_pose(geometry_msgs::Pose newPose);
+    void set_pose(geometry_msgs::PoseStamped newPose);
     void set_odom(nav_msgs::Odometry newOdom);
     void set_joy(sensor_msgs::Joy newJoy);
     void set_parameters(std_msgs::Float32MultiArray newParameters);
 
 private:
-    geometry_msgs::Pose pose;
+    geometry_msgs::PoseStamped pose;
     sensor_msgs::Joy joy;
     nav_msgs::Odometry odom;
     std_msgs::Float32MultiArray parameters;

@@ -6,7 +6,7 @@
 Manager principal;
 
 static void poseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg){
-  principal.set_pose(msg->pose);
+  principal.set_pose(*msg);
 }
 static void odomCallback(const nav_msgs::Odometry::ConstPtr& msg){
   principal.set_odom(*msg);
