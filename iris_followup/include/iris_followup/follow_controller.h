@@ -11,14 +11,13 @@ public:
     ~Follow_Controller();
 
     void print_parameters();
-    geometry_msgs::Twist get_velocity(geometry_msgs::PoseStamped poseStamped);    
+    geometry_msgs::Twist get_velocity(geometry_msgs::PoseStamped poseStamped, Speed droneVel);    
     void update_parameters(float *newParameters);
 
 private:
+
     ros::Time track_last_timestamp;
-    
     TelloCascadePDPIController controller;
-    
     Pose setpoint;
 };
 

@@ -60,33 +60,33 @@ void Follow_Controller::update_parameters(float *newParameters)
     controller.update_theta(newParameters[12], newParameters[13], newParameters[14], newParameters[15]);
 }
 
-geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped poseStamped)
+geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped poseStamped, Speed droneVel)
 {
+    Pose measurement;
     geometry_msgs::Twist velocity;
-    geometry_msgs::Pose pose = poseStamped.pose;
 
     if (poseStamped.header.stamp.is_zero())
     {
         return velocity;
     }
 
-    Pose measurement;
-    measurement.x = pose.position.x;
-    measurement.y = pose.position.y;
-    measurement.z = pose.position.z;
-    measurement.theta = pose.orientation.x;
+    measurement.x = poseStamped.pose.position.x;
+    measurement.y = poseStamped.pose.position.y;
+    measurement.z = poseStamped.pose.position.z;
+    measurement.theta = poseStamped.pose.orientation.x;
 
-    Speed vel = controller.control(setpoint, measurement);
+    Speed vel = controller.control(setpoint, measurement, droneVel);
 
     velocity.linear.x = vel.vx;
     velocity.linear.y = vel.vy;
     velocity.linear.z = vel.vz;
     velocity.angular.z = vel.vtheta;
 
-    cout << "x -> " << setpoint.x << "\t" << pose.position.x << "\t" << velocity.linear.x << endl;
-    cout << "y -> " << setpoint.y << "\t" << pose.position.y << "\t" << velocity.linear.y << endl;
-    cout << "z -> " << setpoint.z << "\t" << pose.position.z << "\t" << velocity.linear.z << endl;
-    cout << "theta -> " << setpoint.theta << "\t" << pose.position.z << "\t" << velocity.linear.z << endl;
+
+    cout << "x -> " << droneVel.vx << "\t" << poseStamped.pose.position.x << "\t" << velocity.linear.x << endl;
+    cout << "y -> " << droneVel.vy << "\t" << poseStamped.pose.position.y << "\t" << velocity.linear.y << endl;
+    cout << "z -> " << droneVel.vz << "\t" << poseStamped.pose.position.z << "\t" << velocity.linear.z << endl;
+    cout << "theta -> " << droneVel.vtheta << "\t" << poseStamped.pose.position.z << "\t" << velocity.linear.z << endl;
 
     return velocity;
 }

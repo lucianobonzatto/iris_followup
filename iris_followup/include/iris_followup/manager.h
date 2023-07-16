@@ -30,6 +30,8 @@ private:
     sensor_msgs::Joy joy;
     nav_msgs::Odometry odom;
     std_msgs::Float32MultiArray parameters;
+    geometry_msgs::PoseStamped lastPose;
+    Speed droneVel;
 
     DroneControl *drone_connection;
     State_Machine state_machine;

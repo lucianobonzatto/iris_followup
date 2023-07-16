@@ -50,6 +50,7 @@ class ImageRepublisher:
                 print(teste)
 
                 pose_msg = PoseStamped()
+                pose_msg.header.stamp = rospy.Time.now()
 
                 pose_msg.pose.position.x = tvec[1] + 0.438340129 * tvec[2]
                 pose_msg.pose.position.y = tvec[0] + 0.581929754 * tvec[2]
