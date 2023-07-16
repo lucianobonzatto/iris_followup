@@ -66,7 +66,7 @@ class ImageRepublisher:
 
                 br.sendTransform(teste, quaternion, rospy.Time.now(), "iris", "base_footprint")
 
-                self.pose_pub.publish(pose_msg)
+                # self.pose_pub.publish(pose_msg)
 
         republished_msg = self.bridge.cv2_to_imgmsg(image, encoding='rgb8')
         self.image_pub.publish(republished_msg)

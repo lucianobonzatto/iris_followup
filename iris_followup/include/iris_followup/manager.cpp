@@ -20,10 +20,9 @@ void Manager::Init(DroneControl *drone_control,
 void Manager::print_parameters()
 {
   cout << "================" << endl;
-  // cout << "\ttrack: " << track.header.stamp << endl;
-  cout << pose << endl;
+  // cout << "\tpose: "<< pose.header.stamp << endl;
   cout << "\tjoy: " << joy.header.stamp << endl;
-  cout << "\todom: " << odom.header.stamp << endl;
+  cout << "\todom: " << odom.header << endl;
   cout << "\tstate: " << states_name[state_machine.get_state()] << endl;
   follow_controller.print_parameters();
   land_controller.print_parameters();
@@ -110,7 +109,7 @@ void Manager::LAND_CONTROL_action()
 void Manager::FOLLOW_CONTROL_action()
 {
   geometry_msgs::Twist velocity;
-  velocity = follow_controller.get_velocity(pose, droneVel);
+  velocity = follow_controller.get_velocity(droneVel);
   send_velocity(velocity);
 }
 
@@ -127,17 +126,18 @@ void Manager::send_velocity(geometry_msgs::Twist velocity)
                             velocity.angular.z);
 }
 
-void Manager::set_pose(geometry_msgs::PoseStamped newPose)
-{
-  ros::Duration dt = newPose.header.stamp - lastPose.header.stamp;
-  droneVel.vx = (newPose.pose.position.x - lastPose.pose.position.x)/(dt.nsec * 1000000);
-  droneVel.vy = (newPose.pose.position.y - lastPose.pose.position.y)/(dt.nsec * 1000000);
-  droneVel.vz = (newPose.pose.position.z - lastPose.pose.position.z)/(dt.nsec * 1000000);
-  droneVel.vtheta = (newPose.pose.orientation.x - lastPose.pose.orientation.x)/(dt.nsec * 1000000);
+// void Manager::set_pose(geometry_msgs::PoseStamped newPose)
+// {
+//   lastPose = pose;
+//   pose = newPose;
 
-  lastPose = pose;
-  pose = newPose;
-}
+//   ros::Duration dt = pose.header.stamp - lastPose.header.stamp;
+//   double teste = (double)dt.nsec / 1000000000;
+//   droneVel.vx = (pose.pose.position.x - lastPose.pose.position.x) / teste;
+//   droneVel.vy = (pose.pose.position.y - lastPose.pose.position.y) / teste;
+//   droneVel.vz = (pose.pose.position.z - lastPose.pose.position.z) / teste;
+//   droneVel.vtheta = (pose.pose.orientation.x - lastPose.pose.orientation.x) / teste;
+// }
 
 void Manager::set_odom(nav_msgs::Odometry newOdom)
 {

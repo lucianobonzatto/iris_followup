@@ -11,14 +11,18 @@ public:
     ~Follow_Controller();
 
     void print_parameters();
-    geometry_msgs::Twist get_velocity(geometry_msgs::PoseStamped poseStamped, Speed droneVel);    
+    geometry_msgs::Twist get_velocity(Speed droneVel);    
     void update_parameters(float *newParameters);
 
 private:
 
+    Pose read_tf(geometry_msgs::TransformStamped tf);
+
     ros::Time track_last_timestamp;
     TelloCascadePDPIController controller;
     Pose setpoint;
+    tf2_ros::Buffer tfBuffer;
+
 };
 
 #endif // FOLLOW_CONTROLLER_H
