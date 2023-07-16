@@ -112,12 +112,12 @@ public:
     void get_theta(double &kp_pd, double &kd_pd, double &kp_pi, double &ki_pi)
     {controller_theta.getParameters(kp_pd, kd_pd, kp_pi, ki_pi);}
 
-    Speed control(const Pose& setpoint, const Pose& measurement) {
+    Speed control(const Pose& setpoint, const Pose& measurement, const Speed& setpoint_speed, const Speed& measurement_speed) {
         Speed speed;
-        speed.vx = controller_x.control(setpoint.x, measurement.x);
-        speed.vy = controller_y.control(setpoint.y, measurement.y);
-        speed.vz = controller_z.control(setpoint.z, measurement.z);
-        speed.vtheta = controller_theta.control(setpoint.theta, measurement.theta);
+        speed.vx = controller_x.control(setpoint.x, measurement.x, setpoint_speed.vx, measurement_speed.vx);
+        speed.vy = controller_y.control(setpoint.y, measurement.y, setpoint_speed.vy, measurement_speed.vy);
+        speed.vz = controller_z.control(setpoint.z, measurement.z, setpoint_speed.vz, measurement_speed.vz);
+        speed.vtheta = controller_theta.control(setpoint.theta, measurement.theta, setpoint_speed.vtheta, measurement_speed.vtheta);
         return speed;
     }
 };
