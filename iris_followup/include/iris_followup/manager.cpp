@@ -142,6 +142,11 @@ void Manager::send_velocity(geometry_msgs::Twist velocity)
 void Manager::set_odom(nav_msgs::Odometry newOdom)
 {
   odom = newOdom;
+
+  droneVel.vx = odom.twist.twist.linear.x;
+  droneVel.vy = odom.twist.twist.linear.y;
+  droneVel.vz = odom.twist.twist.linear.z;
+  droneVel.vtheta = odom.twist.twist.angular.z;
 }
 
 void Manager::set_joy(sensor_msgs::Joy newJoy)
