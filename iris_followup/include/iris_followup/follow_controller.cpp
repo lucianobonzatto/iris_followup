@@ -11,10 +11,15 @@ Follow_Controller::Follow_Controller()
 
     PID::Builder builder;
 
-    TelloCascadePDPIController cont(builder, builder,
-                                    builder, builder,
-                                    builder, builder,
-                                    builder, builder);
+    // TelloCascadePDPIController cont(builder, builder,
+    //                                 builder, builder,
+    //                                 builder, builder,
+    //                                 builder, builder);
+
+    TelloPDController cont(builder,
+                           builder,
+                           builder,
+                           builder);
 
     controller = cont;
 }
@@ -29,25 +34,26 @@ void Follow_Controller::print_parameters()
     cout << "Follow_Controller: " << endl;
 
     double kp_pd, kd_pd, kp_pi, ki_pi;
-    controller.get_x(kp_pd, kd_pd, kp_pi, ki_pi);
+    kp_pd = kd_pd = kp_pi = ki_pi = 0;
+    controller.get_x(kp_pd, kd_pd); //, kp_pi, ki_pi);
     cout << "\tx_p_pd: " << kp_pd
          << "\tx_d_pd: " << kd_pd
          << "\tx_p_pi: " << kp_pi
          << "\tx_i_pi: " << ki_pi << endl;
 
-    controller.get_y(kp_pd, kd_pd, kp_pi, ki_pi);
+    controller.get_y(kp_pd, kd_pd); //, kp_pi, ki_pi);
     cout << "\ty_p_pd: " << kp_pd
          << "\ty_d_pd: " << kd_pd
          << "\ty_p_pi: " << kp_pi
          << "\ty_i_pi: " << ki_pi << endl;
 
-    controller.get_z(kp_pd, kd_pd, kp_pi, ki_pi);
+    controller.get_z(kp_pd, kd_pd); //, kp_pi, ki_pi);
     cout << "\tz_p_pd: " << kp_pd
          << "\tz_d_pd: " << kd_pd
          << "\tz_p_pi: " << kp_pi
          << "\tz_i_pi: " << ki_pi << endl;
 
-    controller.get_theta(kp_pd, kd_pd, kp_pi, ki_pi);
+    controller.get_theta(kp_pd, kd_pd); //, kp_pi, ki_pi);
     cout << "\tt_p_pd: " << kp_pd
          << "\tt_d_pd: " << kd_pd
          << "\tt_p_pi: " << kp_pi
@@ -56,10 +62,15 @@ void Follow_Controller::print_parameters()
 
 void Follow_Controller::update_parameters(float *newParameters)
 {
-    controller.update_x(newParameters[0], newParameters[1], newParameters[2], newParameters[3]);
-    controller.update_y(newParameters[4], newParameters[5], newParameters[6], newParameters[7]);
-    controller.update_z(newParameters[8], newParameters[9], newParameters[10], newParameters[11]);
-    controller.update_theta(newParameters[12], newParameters[13], newParameters[14], newParameters[15]);
+    // controller.update_x(newParameters[0], newParameters[1], newParameters[2], newParameters[3]);
+    // controller.update_y(newParameters[4], newParameters[5], newParameters[6], newParameters[7]);
+    // controller.update_z(newParameters[8], newParameters[9], newParameters[10], newParameters[11]);
+    // controller.update_theta(newParameters[12], newParameters[13], newParameters[14], newParameters[15]);
+
+    controller.update_x(newParameters[0], newParameters[1]);
+    controller.update_y(newParameters[4], newParameters[5]);
+    controller.update_z(newParameters[8], newParameters[9]);
+    controller.update_theta(newParameters[12], newParameters[13]);
 }
 
 Pose Follow_Controller::read_tf(geometry_msgs::TransformStamped tf)
@@ -86,14 +97,13 @@ Pose Follow_Controller::read_tf(geometry_msgs::TransformStamped tf)
     return measurement;
 }
 
-
 geometry_msgs::Twist Follow_Controller::get_velocity(Speed droneVel)
 {
     Pose iris_mes, magni_mes;
     geometry_msgs::Twist velocity;
     geometry_msgs::TransformStamped iris_pose, magni_pose;
     tf2_ros::TransformListener tfListener(tfBuffer);
-    
+
     try
     {
         iris_pose = tfBuffer.lookupTransform("odom_ned", "iris", ros::Time(0), ros::Duration(1));
@@ -108,14 +118,14 @@ geometry_msgs::Twist Follow_Controller::get_velocity(Speed droneVel)
     magni_mes = read_tf(magni_pose);
 
     cout << "\tx -> " << iris_mes.x
-            << "\ty -> " << iris_mes.y
-            << "\tz -> " << iris_mes.z
-            << "\tt -> " << iris_mes.theta<< endl;
+         << "\ty -> " << iris_mes.y
+         << "\tz -> " << iris_mes.z
+         << "\tt -> " << iris_mes.theta << endl;
 
     cout << "\tx -> " << magni_mes.x
-            << "\ty -> " << magni_mes.y
-            << "\tz -> " << magni_mes.z
-            << "\tt -> " << magni_mes.theta<< endl;
+         << "\ty -> " << magni_mes.y
+         << "\tz -> " << magni_mes.z
+         << "\tt -> " << magni_mes.theta << endl;
 
     // Speed vel = controller.control(setpoint, measurement, droneVel);
 

@@ -19,7 +19,8 @@ private:
     Pose read_tf(geometry_msgs::TransformStamped tf);
 
     ros::Time track_last_timestamp;
-    TelloCascadePDPIController controller;
+    // TelloCascadePDPIController controller;
+    TelloPDController controller;
     Pose setpoint;
     tf2_ros::Buffer tfBuffer;
 
