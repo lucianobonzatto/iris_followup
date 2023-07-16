@@ -20,16 +20,19 @@ public:
     void print_parameters();
     void update();
 
-    void set_pose(geometry_msgs::PoseStamped newPose);
+    // void set_pose(geometry_msgs::PoseStamped newPose);
     void set_odom(nav_msgs::Odometry newOdom);
     void set_joy(sensor_msgs::Joy newJoy);
     void set_parameters(std_msgs::Float32MultiArray newParameters);
 
 private:
-    geometry_msgs::PoseStamped pose;
     sensor_msgs::Joy joy;
     nav_msgs::Odometry odom;
     std_msgs::Float32MultiArray parameters;
+
+    // geometry_msgs::PoseStamped pose;
+    // geometry_msgs::PoseStamped lastPose;
+    Speed droneVel;
 
     DroneControl *drone_connection;
     State_Machine state_machine;
