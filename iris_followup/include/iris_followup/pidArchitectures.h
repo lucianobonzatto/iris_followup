@@ -91,11 +91,13 @@ public:
         : pdController(builder_pd.build()),
           piController(builder_pi.build()) {}
 
-    double control(double setpoint, double measurement)
+    // double control(double setpoint, double measurement)
+    double control(double setpoint, double measurement, double setpoint_speed, double measurement_speed)
     {
         pdController.compute(setpoint, measurement);
         double pd_output = pdController.getOutput();
-        piController.compute(setpoint, measurement);
+        // piController.compute(setpoint, measurement);
+        piController.compute(setpoint_speed, measurement_speed);
         double pi_output = piController.getOutput();
         return pd_output + pi_output;
     }
