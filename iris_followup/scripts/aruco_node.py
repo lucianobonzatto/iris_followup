@@ -9,6 +9,9 @@ from sensor_msgs.msg import Image
 from geometry_msgs.msg import PoseStamped
 from cv_bridge import CvBridge, CvBridgeError
 from scipy.spatial.transform import Rotation as R
+import tf
+
+br = tf.TransformBroadcaster()
 
 class ImageRepublisher:
     def __init__(self):
@@ -41,13 +44,6 @@ class ImageRepublisher:
                 rvec = rvecs[i][0]
                 tvec = tvecs[i][0]
                 rotation_matrix_euler = R.from_rotvec(rvec).as_euler('ZYX')
-                
-
-                teste = {'id': -1, 'position':[0,0,0], 'orientation':[0,0,0]}
-                teste['id'] = ids[i]
-                teste['position'] = tvec
-                teste['orientation'] = np.degrees(rotation_matrix_euler)
-                print(teste)
 
                 pose_msg = PoseStamped()
                 pose_msg.header.stamp = rospy.Time.now()
@@ -55,10 +51,20 @@ class ImageRepublisher:
                 pose_msg.pose.position.x = tvec[1] + 0.438340129 * tvec[2]
                 pose_msg.pose.position.y = tvec[0] + 0.581929754 * tvec[2]
                 pose_msg.pose.position.z = tvec[2]
+                quaternion = tf.transformations.quaternion_from_euler(
+                                                        0,
+                                                        0,
+                                                        rotation_matrix_euler[0])
 
-                pose_msg.pose.orientation.x = rotation_matrix_euler[0]
-                pose_msg.pose.orientation.y = rotation_matrix_euler[1]
-                pose_msg.pose.orientation.z = rotation_matrix_euler[2]
+                # Assign the quaternion to the pose_msg
+                pose_msg.pose.orientation.x = quaternion[0]
+                pose_msg.pose.orientation.y = quaternion[1]
+                pose_msg.pose.orientation.z = quaternion[2]
+                pose_msg.pose.orientation.w = quaternion[3]
+
+                teste = [pose_msg.pose.position.x, pose_msg.pose.position.y, -pose_msg.pose.position.z]
+
+                br.sendTransform(teste, quaternion, rospy.Time.now(), "iris", "base_footprint")
 
                 self.pose_pub.publish(pose_msg)
 
