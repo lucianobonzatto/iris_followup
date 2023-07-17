@@ -31,7 +31,6 @@ void Manager::print_parameters()
 
 void Manager::update()
 {
-  FOLLOW_CONTROL_action();
   STATES state = state_machine.get_state();
   switch (state)
   {
