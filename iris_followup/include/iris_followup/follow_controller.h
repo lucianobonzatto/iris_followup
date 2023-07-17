@@ -11,7 +11,7 @@ public:
     ~Follow_Controller();
 
     void print_parameters();
-    geometry_msgs::Twist get_velocity(geometry_msgs::PoseStamped poseStamped, Speed iris_vel);    
+    geometry_msgs::Twist get_velocity(geometry_msgs::PoseStamped poseStamped, Speed iris_vel);
     void update_parameters(float *newParameters);
 
 private:
@@ -22,6 +22,7 @@ private:
     TelloParallelPDPIController pdController;
 
     Pose pose_setpoint;
+    double calc_vel(double valor);
 };
 
 #endif // FOLLOW_CONTROLLER_H

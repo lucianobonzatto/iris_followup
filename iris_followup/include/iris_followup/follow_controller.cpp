@@ -88,17 +88,67 @@ geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped 
     measurement.z = pose.position.z;
     measurement.theta = pose.orientation.x;
 
-    Speed vel = pdController.control(pose_setpoint, measurement, iris_vel);
+    Speed vel_setpoint;
+
+    vel_setpoint.vx = calc_vel(measurement.x);
+    vel_setpoint.vy = calc_vel(measurement.x);
+    vel_setpoint.vz = calc_vel(measurement.x);
+    vel_setpoint.vtheta = calc_vel(measurement.x);
+
+    Speed vel = pdController.control(pose_setpoint, measurement, vel_setpoint, iris_vel);
 
     velocity.linear.x = vel.vx;
     velocity.linear.y = vel.vy;
     velocity.linear.z = vel.vz;
     velocity.angular.z = vel.vtheta;
 
-    cout << "x -> " << pose_setpoint.x << "\t" << pose.position.x << "\t" << velocity.linear.x << "\t" << iris_vel.vx << endl;
-    cout << "y -> " << pose_setpoint.y << "\t" << pose.position.y << "\t" << velocity.linear.y << "\t" << iris_vel.vy << endl;
-    cout << "z -> " << pose_setpoint.z << "\t" << pose.position.z << "\t" << velocity.linear.z << "\t" << iris_vel.vz << endl;
-    cout << "theta -> " << pose_setpoint.theta << "\t" << pose.orientation.x << "\t" << velocity.angular.z << "\t" << iris_vel.vtheta << endl;
+    cout << "x -> " << pose_setpoint.x << "\t" << pose.position.x << "\t"
+         << vel_setpoint.vx << "\t" << velocity.linear.x << "\t" << iris_vel.vx << endl;
+
+    cout << "y -> " << pose_setpoint.y << "\t" << pose.position.y << "\t"
+         << vel_setpoint.vy << "\t" << velocity.linear.y << "\t" << iris_vel.vy << endl;
+
+    cout << "z -> " << pose_setpoint.z << "\t" << pose.position.z << "\t"
+         << vel_setpoint.vz << "\t" << velocity.linear.z << "\t" << iris_vel.vz << endl;
+
+    cout << "theta -> " << pose_setpoint.theta << "\t" << pose.orientation.x
+         << vel_setpoint.vtheta << "\t" << "\t" << velocity.angular.z << "\t" << iris_vel.vtheta << endl;
 
     return velocity;
+}
+
+double Follow_Controller::calc_vel(double valor)
+{
+    const double MAX = 1;   // Valor máximo permitido
+    const double MIN = 0.4;   // Valor mínimo permitido
+    double valorRetorno = 0.3; // Valor a ser retornado
+
+    if (valor >= MIN && valor <= MAX)
+    {
+        return valorRetorno;
+    }
+    else if (valor < MIN)
+    {
+        double slope = valorRetorno / (MIN - 0.0); // Inclinação da reta
+        double intercept = -slope * 0.0;           // Intercepto da reta
+        return slope * valor + intercept;
+    }
+    else if (valor > MAX)
+    {
+        if (valor == 2 * MAX)
+        {
+            return 0.0;
+        }
+        else
+        {
+            double slope = -valorRetorno / (2 * MAX - MAX); // Inclinação da reta
+            double intercept = -slope * MAX + valorRetorno; // Intercepto da reta
+            return slope * valor + intercept;
+        }
+    }
+    else
+    {
+        // Trate outros casos se necessário
+        return valor;
+    }
 }
