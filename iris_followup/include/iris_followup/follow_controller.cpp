@@ -2,14 +2,14 @@
 
 Follow_Controller::Follow_Controller()
 {
-    setpoint.x = 0;
-    setpoint.y = 0;
-    setpoint.z = 1.5;
-    setpoint.theta = 0;
+    pose_setpoint.x = 0;
+    pose_setpoint.y = 0;
+    pose_setpoint.z = 1.5;
+    pose_setpoint.theta = 0;
 
     PID::Builder builder;
 
-    TelloCascadePDPIController controller(
+    TelloParallelPDPIController controller(
         builder, builder,
         builder, builder,
         builder, builder,
@@ -88,17 +88,17 @@ geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped 
     measurement.z = pose.position.z;
     measurement.theta = pose.orientation.x;
 
-    Speed vel = pdController.control(setpoint, measurement, iris_vel);
+    Speed vel = pdController.control(pose_setpoint, measurement, iris_vel);
 
     velocity.linear.x = vel.vx;
     velocity.linear.y = vel.vy;
     velocity.linear.z = vel.vz;
     velocity.angular.z = vel.vtheta;
 
-    cout << "x -> " << setpoint.x << "\t" << pose.position.x << "\t" << velocity.linear.x << "\t" << iris_vel.vx << endl;
-    cout << "y -> " << setpoint.y << "\t" << pose.position.y << "\t" << velocity.linear.y << "\t" << iris_vel.vy << endl;
-    cout << "z -> " << setpoint.z << "\t" << pose.position.z << "\t" << velocity.linear.z << "\t" << iris_vel.vz << endl;
-    cout << "theta -> " << setpoint.theta << "\t" << pose.orientation.x << "\t" << velocity.angular.z << "\t" << iris_vel.vtheta << endl;
+    cout << "x -> " << pose_setpoint.x << "\t" << pose.position.x << "\t" << velocity.linear.x << "\t" << iris_vel.vx << endl;
+    cout << "y -> " << pose_setpoint.y << "\t" << pose.position.y << "\t" << velocity.linear.y << "\t" << iris_vel.vy << endl;
+    cout << "z -> " << pose_setpoint.z << "\t" << pose.position.z << "\t" << velocity.linear.z << "\t" << iris_vel.vz << endl;
+    cout << "theta -> " << pose_setpoint.theta << "\t" << pose.orientation.x << "\t" << velocity.angular.z << "\t" << iris_vel.vtheta << endl;
 
     return velocity;
 }
