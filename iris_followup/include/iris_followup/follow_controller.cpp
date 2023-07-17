@@ -53,7 +53,7 @@ void Follow_Controller::update_parameters(float *newParameters)
     pdController.update_theta(newParameters[9], newParameters[11]);
 }
 
-geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped poseStamped)
+geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped poseStamped, Speed iris_vel)
 {
     geometry_msgs::Twist velocity;
     geometry_msgs::Pose pose = poseStamped.pose;
@@ -82,10 +82,10 @@ geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped 
     velocity.linear.z = vel.vz;
     velocity.angular.z = vel.vtheta;
 
-    cout << "x -> " << setpoint.x << "\t" << pose.position.x << "\t" << velocity.linear.x << endl;
-    cout << "y -> " << setpoint.y << "\t" << pose.position.y << "\t" << velocity.linear.y << endl;
-    cout << "z -> " << setpoint.z << "\t" << pose.position.z << "\t" << velocity.linear.z << endl;
-    cout << "theta -> " << setpoint.theta << "\t" << pose.position.z << "\t" << velocity.linear.z << endl;
+    cout << "x -> " << setpoint.x << "\t" << pose.position.x << "\t" << velocity.linear.x << "\t" << iris_vel.vx << endl;
+    cout << "y -> " << setpoint.y << "\t" << pose.position.y << "\t" << velocity.linear.y << "\t" << iris_vel.vy << endl;
+    cout << "z -> " << setpoint.z << "\t" << pose.position.z << "\t" << velocity.linear.z << "\t" << iris_vel.vz << endl;
+    cout << "theta -> " << setpoint.theta << "\t" << pose.orientation.x << "\t" << velocity.angular.z << "\t" << iris_vel.vtheta << endl;
 
     return velocity;
 }

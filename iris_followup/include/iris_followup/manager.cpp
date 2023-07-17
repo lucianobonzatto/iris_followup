@@ -111,7 +111,7 @@ void Manager::LAND_CONTROL_action()
 void Manager::FOLLOW_CONTROL_action()
 {
   geometry_msgs::Twist velocity;
-  velocity = follow_controller.get_velocity(pose);
+  velocity = follow_controller.get_velocity(pose, iris_vel);
   send_velocity(velocity);
 }
 
@@ -136,6 +136,10 @@ void Manager::set_pose(geometry_msgs::PoseStamped newPose)
 void Manager::set_odom(nav_msgs::Odometry newOdom)
 {
   odom = newOdom;
+  iris_vel.vx = odom.twist.twist.linear.x;
+  iris_vel.vy = odom.twist.twist.linear.y;
+  iris_vel.vz = odom.twist.twist.linear.z;
+  iris_vel.vtheta = odom.twist.twist.angular.z;
 }
 
 void Manager::set_joy(sensor_msgs::Joy newJoy)

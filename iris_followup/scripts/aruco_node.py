@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import tf
 import cv2
 import rospy
 import numpy as np
@@ -66,7 +67,11 @@ class ImageRepublisher:
 
 
     def run(self):
-        rospy.spin()
+        rate = rospy.Rate(10.0)
+        br = tf.TransformBroadcaster()
+        while not rospy.is_shutdown():
+            rate.sleep()
+            br.sendTransform([1,1,0], [0,0,0,1], rospy.Time.now(), "odom", "map")
 
 if __name__ == '__main__':
     rospy.init_node('aruco_node')
