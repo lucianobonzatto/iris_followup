@@ -58,7 +58,13 @@ geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped 
     geometry_msgs::Twist velocity;
     geometry_msgs::Pose pose = poseStamped.pose;
 
-    if (poseStamped.header.stamp.is_zero())
+    if ((pose.position.x == 0) &&
+        (pose.position.y == 0) &&
+        (pose.position.z == 0) &&
+        (pose.orientation.x == 0) &&
+        (pose.orientation.y == 0) &&
+        (pose.orientation.z == 0) &&
+        (pose.orientation.w == 0))
     {
         return velocity;
     }
