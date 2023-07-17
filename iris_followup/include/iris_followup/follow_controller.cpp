@@ -7,16 +7,13 @@ Follow_Controller::Follow_Controller()
     setpoint.z = 1.5;
     setpoint.theta = 0;
 
-    PID::Builder builder_pd_x;
-    PID::Builder builder_pd_y;
-    PID::Builder builder_pd_z;
-    PID::Builder builder_pd_theta;
+    PID::Builder builder;
 
-    TelloPDController controller(
-        builder_pd_x,
-        builder_pd_y,
-        builder_pd_z,
-        builder_pd_theta);
+    TelloCascadePDPIController controller(
+        builder, builder,
+        builder, builder,
+        builder, builder,
+        builder, builder);
 
     pdController = controller;
 }
@@ -29,28 +26,44 @@ void Follow_Controller::print_parameters()
 {
     cout << "Follow_Controller: " << endl;
 
-    double Kp, Kd;
-    pdController.get_x(Kp, Kd);
-    cout << "\tKp_x: " << Kp << "\tKd_x: " << Kd << endl;
-    pdController.get_y(Kp, Kd);
-    cout << "\tKp_y: " << Kp << "\tKd_y: " << Kd << endl;
-    pdController.get_z(Kp, Kd);
-    cout << "\tKp_z: " << Kp << "\tKd_z: " << Kd << endl;
-    pdController.get_theta(Kp, Kd);
-    cout << "\tKp_theta: " << Kp << "\tKd_theta: " << Kd << endl;
+    double kp_pd, kd_pd, kp_pi, ki_pi;
+    kp_pd = kd_pd = kp_pi = ki_pi = 0;
+    pdController.get_x(kp_pd, kd_pd, kp_pi, ki_pi);
+    cout << "\tx_p_pd: " << kp_pd
+         << "\tx_d_pd: " << kd_pd
+         << "\tx_p_pi: " << kp_pi
+         << "\tx_i_pi: " << ki_pi << endl;
+
+    pdController.get_y(kp_pd, kd_pd, kp_pi, ki_pi);
+    cout << "\ty_p_pd: " << kp_pd
+         << "\ty_d_pd: " << kd_pd
+         << "\ty_p_pi: " << kp_pi
+         << "\ty_i_pi: " << ki_pi << endl;
+
+    pdController.get_z(kp_pd, kd_pd, kp_pi, ki_pi);
+    cout << "\tz_p_pd: " << kp_pd
+         << "\tz_d_pd: " << kd_pd
+         << "\tz_p_pi: " << kp_pi
+         << "\tz_i_pi: " << ki_pi << endl;
+
+    pdController.get_theta(kp_pd, kd_pd, kp_pi, ki_pi);
+    cout << "\tt_p_pd: " << kp_pd
+         << "\tt_d_pd: " << kd_pd
+         << "\tt_p_pi: " << kp_pi
+         << "\tt_i_pi: " << ki_pi << endl;
 }
 
 void Follow_Controller::update_parameters(float *newParameters)
 {
-    // x_controller.setParameters(newParameters[0], newParameters[1], newParameters[2], 0);
-    // y_controller.setParameters(newParameters[3], newParameters[4], newParameters[5], 0);
-    // z_controller.setParameters(newParameters[6], newParameters[7], newParameters[8], 0);
-    // yaw_controller.setParameters(newParameters[9], newParameters[10], newParameters[11], 0);
+    pdController.update_x(newParameters[0], newParameters[1], newParameters[2], newParameters[3]);
+    pdController.update_y(newParameters[4], newParameters[5], newParameters[6], newParameters[7]);
+    pdController.update_z(newParameters[8], newParameters[9], newParameters[10], newParameters[11]);
+    pdController.update_theta(newParameters[12], newParameters[13], newParameters[14], newParameters[15]);
 
-    pdController.update_x(newParameters[0], newParameters[2]);
-    pdController.update_y(newParameters[3], newParameters[5]);
-    pdController.update_z(newParameters[6], newParameters[8]);
-    pdController.update_theta(newParameters[9], newParameters[11]);
+    // pdController.update_x(newParameters[0], newParameters[1]);
+    // pdController.update_y(newParameters[4], newParameters[5]);
+    // pdController.update_z(newParameters[8], newParameters[9]);
+    // pdController.update_theta(newParameters[12], newParameters[13]);
 }
 
 geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped poseStamped, Speed iris_vel)
@@ -75,7 +88,7 @@ geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped 
     measurement.z = pose.position.z;
     measurement.theta = pose.orientation.x;
 
-    Speed vel = pdController.control(setpoint, measurement);
+    Speed vel = pdController.control(setpoint, measurement, iris_vel);
 
     velocity.linear.x = vel.vx;
     velocity.linear.y = vel.vy;
