@@ -4,7 +4,7 @@ Follow_Controller::Follow_Controller()
 {
     setpoint.x = 0;
     setpoint.y = 0;
-    setpoint.z = 1;
+    setpoint.z = 1.5;
     setpoint.theta = 0;
 
     PID::Builder builder_pd_x;
