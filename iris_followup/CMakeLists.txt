@@ -168,6 +168,7 @@ catkin_install_python(PROGRAMS
   scripts/parameters_node.py
   scripts/udp_image.py
   scripts/aruco_node.py
+  scripts/plot.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
