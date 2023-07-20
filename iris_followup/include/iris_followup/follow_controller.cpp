@@ -91,9 +91,9 @@ geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped 
     Speed vel_setpoint;
 
     vel_setpoint.vx = calc_vel(measurement.x);
-    vel_setpoint.vy = calc_vel(measurement.x);
-    vel_setpoint.vz = calc_vel(measurement.x);
-    vel_setpoint.vtheta = calc_vel(measurement.x);
+    vel_setpoint.vy = calc_vel(measurement.y);
+    vel_setpoint.vz = calc_vel(measurement.z);
+    vel_setpoint.vtheta = calc_vel(measurement.theta);
 
     Speed vel = pdController.control(pose_setpoint, measurement, vel_setpoint, iris_vel);
 
@@ -117,38 +117,47 @@ geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped 
     return velocity;
 }
 
-double Follow_Controller::calc_vel(double valor)
+double Follow_Controller::calc_vel(double valor_in)
 {
-    const double MAX = 1;   // Valor máximo permitido
-    const double MIN = 0.4;   // Valor mínimo permitido
-    double valorRetorno = 0.3; // Valor a ser retornado
+    const double MAX = 1.5;   // Valor máximo permitido
+    const double MIN = 0.1;   // Valor mínimo permitido
+    double valorRetorno = 0.6; // Valor a ser retornado
+    double return_value;
+    double valor = valor_in;
+    if(valor_in < 0)
+        valor = -valor;
 
     if (valor >= MIN && valor <= MAX)
     {
-        return valorRetorno;
+        return_value = valorRetorno;
     }
     else if (valor < MIN)
     {
         double slope = valorRetorno / (MIN - 0.0); // Inclinação da reta
         double intercept = -slope * 0.0;           // Intercepto da reta
-        return slope * valor + intercept;
+        return_value = slope * valor + intercept;
     }
     else if (valor > MAX)
     {
         if (valor == 2 * MAX)
         {
-            return 0.0;
+            return_value = 0.0;
         }
         else
         {
             double slope = -valorRetorno / (2 * MAX - MAX); // Inclinação da reta
             double intercept = -slope * MAX + valorRetorno; // Intercepto da reta
-            return slope * valor + intercept;
+            return_value = slope * valor + intercept;
         }
     }
     else
     {
         // Trate outros casos se necessário
-        return valor;
+        return_value = valor;
     }
+
+    if(valor_in > 0)
+        return_value = -return_value;
+
+    return return_value;
 }
