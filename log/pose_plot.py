@@ -15,8 +15,11 @@ def plot_grafico3d(ax, controller, vel):
     # iris_pose = ler_csv("log/csv/" + controller + vel + "/iris_pose.csv")
     # magni_pose = ler_csv("log/csv/" + controller + vel + "/magni_pose.csv")
 
-    iris_pose = ler_csv("csv/sqr/cascate/iris_pose.csv")
-    magni_pose = ler_csv("csv/sqr/cascate/magni_pose.csv")
+    iris_pose = ler_csv("csv/sqr/" + controller + "/iris_pose.csv")
+    magni_pose = ler_csv("csv/sqr/" + controller + "/magni_pose.csv")
+
+    # iris_pose = ler_csv("csv/sqr/pd/iris_pose.csv")
+    # magni_pose = ler_csv("csv/sqr/pd/magni_pose.csv")
     
     ax.plot(iris_pose["X Position"].to_numpy(), iris_pose["Y Position"].to_numpy(), iris_pose["Z Position"].to_numpy(), c='b', label=f'iris_pose')
     ax.plot(magni_pose["X Position"].to_numpy(), magni_pose["Y Position"].to_numpy(), magni_pose["Z Position"].to_numpy(), c='r', label=f'magni_pose')
@@ -32,10 +35,20 @@ def plot_grafico3d(ax, controller, vel):
     # ax.legend()
 
 vel = ["03", "04", "05"]
-controller = ['pd', 'cascade', 'paralel']
+controller = ['pd', 'cascate', 'paralel']
 
 fig = plt.figure()
-ax1 = fig.add_subplot(111, projection='3d')
+ax1 = fig.add_subplot(311, projection='3d')
+ax2 = fig.add_subplot(312, projection='3d')
+ax3 = fig.add_subplot(313, projection='3d')
+
+plot_grafico3d(ax1, controller[0], vel[0])
+plot_grafico3d(ax2, controller[1], vel[0])
+plot_grafico3d(ax3, controller[2], vel[0])
+
+
+################################
+# ax1 = fig.add_subplot(331, projection='3d')
 # ax2 = fig.add_subplot(332, projection='3d')
 # ax3 = fig.add_subplot(333, projection='3d')
 
@@ -47,7 +60,7 @@ ax1 = fig.add_subplot(111, projection='3d')
 # ax8 = fig.add_subplot(338, projection='3d')
 # ax9 = fig.add_subplot(339, projection='3d')
 
-plot_grafico3d(ax1, controller[0], vel[0])
+# plot_grafico3d(ax1, controller[0], vel[0])
 # plot_grafico3d(ax2, controller[0], vel[1])
 # plot_grafico3d(ax3, controller[0], vel[2])
 
