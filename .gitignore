@@ -3,4 +3,3 @@ shell_script/.tmuxinator.yml
 *.xml
 *.iml
 iris_followup/cmake-build-debug
-log/2023-07-18-17-05-13.bag
