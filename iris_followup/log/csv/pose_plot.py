@@ -28,7 +28,6 @@ def plot_grafico3d(ax, controller, vel):
     
     ax.legend()
 
-
 vel = ["03", "04", "05"]
 controller = ['pd', 'cascade', 'paralel']
 
