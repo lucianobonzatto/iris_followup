@@ -46,7 +46,6 @@ plot_grafico3d(ax1, controller[0], vel[0])
 plot_grafico3d(ax2, controller[1], vel[0])
 plot_grafico3d(ax3, controller[2], vel[0])
 
-
 ################################
 # ax1 = fig.add_subplot(331, projection='3d')
 # ax2 = fig.add_subplot(332, projection='3d')
@@ -71,6 +70,7 @@ plot_grafico3d(ax3, controller[2], vel[0])
 # plot_grafico3d(ax7, controller[2], vel[0])
 # plot_grafico3d(ax8, controller[2], vel[1])
 # plot_grafico3d(ax9, controller[2], vel[2])
+################################
 
 plt.subplots_adjust(left=0, bottom=0.05, right=0.97, top=1, wspace=0.17, hspace=0.2)
 plt.show()
