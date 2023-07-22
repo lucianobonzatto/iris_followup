@@ -10,7 +10,7 @@ def ler_csv(nome_arquivo):
         print("Arquivo não encontrado.")
         return None
 
-def plot_grafico2d(ax, controller, controller_name):
+def plot_grafico2d(ax, controller):
     iris_pose = ler_csv("csv/sqr/" + controller + "/iris_pose.csv")
     magni_pose = ler_csv("csv/sqr/" + controller + "/magni_pose.csv")
 
@@ -26,23 +26,19 @@ def plot_grafico2d(ax, controller, controller_name):
     ax[2].plot(iris_pose["Time"].to_numpy(), iris_pose["yaw"].to_numpy(), c='b', label=f'iris')
     ax[2].plot(magni_pose["Time"].to_numpy(), magni_pose["yaw"].to_numpy(), c='r', label=f'magni')
     
-    ax[0].set_xlabel('Time')
+    for a in ax.flat:
+        a.set_xlabel('Time')
+        a.legend()
+
     ax[0].set_ylabel('X position (m)')
-    ax[0].legend()
-
-    ax[1].set_xlabel('Time')
     ax[1].set_ylabel('Y position (m)')
-    ax[1].legend()
-
-    ax[2].set_xlabel('Time')
     ax[2].set_ylabel('Yaw position (rad)')
-    ax[2].legend()
 
-    if(controller_name == 'pd'):
+    if controller == 'pd':
         ax[0].set_title("PD Controller")
-    elif(controller_name == 'cascade'):
+    elif controller == 'cascade':
         ax[0].set_title("PD-PI Cascade Controller")
-    elif(controller_name == 'paralel'):
+    elif controller == 'paralel':
         ax[0].set_title("PD-PI Parallel Controller")
 
 controller = ['pd', 'cascade', 'paralel']
@@ -50,7 +46,7 @@ controller = ['pd', 'cascade', 'paralel']
 fig, ax = plt.subplots(3, len(controller), figsize=(15, 9), sharex='col', sharey='row')
 
 for i, ctrl in enumerate(controller):
-    plot_grafico2d(ax[:, i], ctrl, controller_name=ctrl)
+    plot_grafico2d(ax[:, i], ctrl)
 
 plt.subplots_adjust(left=0.05, bottom=0.1, right=0.97, top=0.95, wspace=0.15, hspace=0.4)
 plt.show()

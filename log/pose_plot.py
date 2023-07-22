@@ -11,12 +11,12 @@ def ler_csv(nome_arquivo):
         print("Arquivo não encontrado.")
         return None
 
-def plot_grafico3d(ax, controller, vel):
+def plot_grafico3d(ax, controller, mv):
     # iris_pose = ler_csv("log/csv/" + controller + vel + "/iris_pose.csv")
     # magni_pose = ler_csv("log/csv/" + controller + vel + "/magni_pose.csv")
 
-    iris_pose = ler_csv("csv/sqr/" + controller + "/iris_pose.csv")
-    magni_pose = ler_csv("csv/sqr/" + controller + "/magni_pose.csv")
+    iris_pose = ler_csv("csv/" + mv + "/" + controller + "/iris_pose.csv")
+    magni_pose = ler_csv("csv/" + mv + "/" + controller + "/magni_pose.csv")
 
     # iris_pose = ler_csv("csv/sqr/pd/iris_pose.csv")
     # magni_pose = ler_csv("csv/sqr/pd/magni_pose.csv")
@@ -28,23 +28,40 @@ def plot_grafico3d(ax, controller, vel):
     ax.set_ylabel('Y Position')
     ax.set_zlabel('Z Position')
 
-    ax.set_xlim(0, 2)
-    ax.set_ylim(-2, 0)
-    ax.set_zlim(0, 2.1)
+    if(mv == "sqr"):
+        ax.set_xlim(0, 2)
+        ax.set_ylim(-2, 0)
+        ax.set_zlim(0, 2.1)
+    else:
+        # ax.set_xlim(0, 2)
+        ax.set_ylim(-1, 1)
+        ax.set_zlim(0, 2.1)
+        if controller == 'pd':
+            ax.set_title("PD Controller")
+        elif controller == 'cascade':
+            ax.set_title("PD-PI Cascade Controller")
+        elif controller == 'paralel':
+            ax.set_title("PD-PI Parallel Controller")
     
     # ax.legend()
 
 vel = ["03", "04", "05"]
-controller = ['pd', 'cascate', 'paralel']
+controller = ['pd', 'cascade', 'paralel']
 
 fig = plt.figure()
-ax1 = fig.add_subplot(311, projection='3d')
-ax2 = fig.add_subplot(312, projection='3d')
-ax3 = fig.add_subplot(313, projection='3d')
+ax1 = fig.add_subplot(231, projection='3d')
+ax2 = fig.add_subplot(232, projection='3d')
+ax3 = fig.add_subplot(233, projection='3d')
+ax4 = fig.add_subplot(234, projection='3d')
+ax5 = fig.add_subplot(235, projection='3d')
+ax6 = fig.add_subplot(236, projection='3d')
 
-plot_grafico3d(ax1, controller[0], vel[0])
-plot_grafico3d(ax2, controller[1], vel[0])
-plot_grafico3d(ax3, controller[2], vel[0])
+plot_grafico3d(ax1, controller[0], 'line')
+plot_grafico3d(ax2, controller[1], 'line')
+plot_grafico3d(ax3, controller[2], 'line')
+plot_grafico3d(ax4, controller[0], 'sqr')
+plot_grafico3d(ax5, controller[1], 'sqr')
+plot_grafico3d(ax6, controller[2], 'sqr')
 
 ################################
 # ax1 = fig.add_subplot(331, projection='3d')
