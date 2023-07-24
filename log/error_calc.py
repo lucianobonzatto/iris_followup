@@ -2,11 +2,20 @@ import numpy as np
 import pandas as pd
 from scipy.spatial.distance import euclidean
 from scipy.interpolate import interp1d
+import matplotlib.pyplot as plt
+import os
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+os.chdir(dir_path)
+
 
 def ler_csv(nome_arquivo):
     try:
         # Lendo o arquivo CSV
-        df = pd.read_csv(nome_arquivo)
+        file_path = os.path.join(dir_path, nome_arquivo)
+        print(f'Trying to open file at: {file_path}')
+        df = pd.read_csv(file_path)
         return df
     except FileNotFoundError:
         print("Arquivo não encontrado.")
@@ -37,8 +46,8 @@ controllers = ['pd', 'cascade', 'paralel']
 
 for controller in controllers:
     for velocity in velocitys:
-        iris_pose = ler_csv("csv/line/" + controller + velocity + "/iris_pose.csv")
-        magni_pose = ler_csv("csv/line/" + controller + velocity + "/magni_pose.csv")
+        iris_pose = ler_csv("csv/line/" + controller + "/iris_pose.csv")
+        magni_pose = ler_csv("csv/line/" + controller + "/magni_pose.csv")
         # iris_pose = ler_csv("csv/sqr/cascate/iris_pose.csv")
         # magni_pose = ler_csv("csv/sqr/cascate/magni_pose.csv")
 
@@ -68,8 +77,7 @@ for controller in controllers:
             " - erro_maximo_y: " + str(erro_maximo_y))
     print("")
 
-
-controllers = ['pd', 'cascate', 'paralel']
+controllers = ['pd', 'cascade', 'paralel']
 for controller in controllers:
     # iris_pose = ler_csv("csv/line/" + controller + velocity + "/iris_pose.csv")
     # magni_pose = ler_csv("csv/line/" + controller + velocity + "/magni_pose.csv")
@@ -100,3 +108,11 @@ for controller in controllers:
         " - EAM: " + str(eam) + 
         " - erro_maximo_x: " + str(erro_maximo_x) + 
         " - erro_maximo_y: " + str(erro_maximo_y))
+
+    plt.figure(figsize=(10, 5))
+    plt.plot(trajetoria_gostaria_interpolada[:, 0], trajetoria_gostaria_interpolada[:, 1], label='Interpolated')
+    plt.plot(iris_trajetoria[:, 0], iris_trajetoria[:, 1], label='Original')
+    plt.xlabel('X Position')
+    plt.ylabel('Y Position')
+    plt.legend()
+    plt.show()
