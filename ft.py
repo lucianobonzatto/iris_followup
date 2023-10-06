@@ -42,7 +42,7 @@ uav_x = uav_4[(uav_4["Time"] >= time_x[0]) & (uav_4["Time"] <= time_x[1])]
 uav_y = uav_4[(uav_4["Time"] >= time_y[0]) & (uav_4["Time"] <= time_y[1])]
 uav_z = uav_4[(uav_4["Time"] >= time_z[0]) & (uav_4["Time"] <= time_z[1])]
 uav_r = uav_4[(uav_4["Time"] >= time_r[0]) & (uav_4["Time"] <= time_r[1])]
-uav_z["Z_vel_uav"] = 2 * uav_z["Z_vel_uav"]
+uav_z["Z_cmd_vel"] = uav_z["Z_cmd_vel"]/2
 
 uav_x.to_csv("csv/uav_x.csv", index=False)
 uav_y.to_csv("csv/uav_y.csv", index=False)
