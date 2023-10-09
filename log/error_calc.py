@@ -37,8 +37,8 @@ controllers = ['pd', 'cascade', 'paralel']
 
 for controller in controllers:
     for velocity in velocitys:
-        iris_pose = ler_csv("csv/line/" + controller + velocity + "/iris_pose.csv")
-        magni_pose = ler_csv("csv/line/" + controller + velocity + "/magni_pose.csv")
+        iris_pose = ler_csv("log/csv/line/" + controller + velocity + "/iris_pose.csv")
+        magni_pose = ler_csv("log/csv/line/" + controller + velocity + "/magni_pose.csv")
         # iris_pose = ler_csv("csv/sqr/cascate/iris_pose.csv")
         # magni_pose = ler_csv("csv/sqr/cascate/magni_pose.csv")
 
@@ -73,8 +73,9 @@ controllers = ['pd', 'cascate', 'paralel']
 for controller in controllers:
     # iris_pose = ler_csv("csv/line/" + controller + velocity + "/iris_pose.csv")
     # magni_pose = ler_csv("csv/line/" + controller + velocity + "/magni_pose.csv")
-    iris_pose = ler_csv("csv/sqr/" + controller + "/iris_pose.csv")
-    magni_pose = ler_csv("csv/sqr/" + controller + "/magni_pose.csv")
+    iris_pose = ler_csv("log/csv/sqr/" + controller + "/iris_pose.csv")
+    magni_pose = ler_csv("log/csv/sqr/" + controller + "/magni_pose.csv")
+    
 
     x = iris_pose["X Position"].to_numpy()
     y = iris_pose["Y Position"].to_numpy()

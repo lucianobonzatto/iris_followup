@@ -11,8 +11,8 @@ def ler_csv(nome_arquivo):
         return None
 
 def plot_grafico2d(ax, controller):
-    iris_pose = ler_csv("csv/sqr/" + controller + "/iris_pose.csv")
-    magni_pose = ler_csv("csv/sqr/" + controller + "/magni_pose.csv")
+    iris_pose = ler_csv("log/csv/sqr/" + controller + "/iris_pose.csv")
+    magni_pose = ler_csv("log/csv/sqr/" + controller + "/magni_pose.csv")
 
     iris_pose["Time"] -= iris_pose["Time"][0]
     magni_pose["Time"] -= magni_pose["Time"][0]

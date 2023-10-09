@@ -15,8 +15,8 @@ def plot_grafico3d(ax, controller, mv):
     # iris_pose = ler_csv("log/csv/" + controller + vel + "/iris_pose.csv")
     # magni_pose = ler_csv("log/csv/" + controller + vel + "/magni_pose.csv")
 
-    iris_pose = ler_csv("csv/" + mv + "/" + controller + "/iris_pose.csv")
-    magni_pose = ler_csv("csv/" + mv + "/" + controller + "/magni_pose.csv")
+    iris_pose = ler_csv("log/csv/" + mv + "/" + controller + "/iris_pose.csv")
+    magni_pose = ler_csv("log/csv/" + mv + "/" + controller + "/magni_pose.csv")
 
     # iris_pose = ler_csv("csv/sqr/pd/iris_pose.csv")
     # magni_pose = ler_csv("csv/sqr/pd/magni_pose.csv")
