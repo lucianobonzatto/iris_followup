@@ -7,16 +7,15 @@ Follow_Controller::Follow_Controller()
     setpoint.z = 1.5;
     setpoint.theta = 0;
 
-    PID::Builder builder_pd_x;
-    PID::Builder builder_pd_y;
-    PID::Builder builder_pd_z;
-    PID::Builder builder_pd_theta;
+    PID::Builder pd_builder;
+
+    pd_builder = pd_builder.setConditionalIntegration(true);
 
     TelloPDController controller(
-        builder_pd_x,
-        builder_pd_y,
-        builder_pd_z,
-        builder_pd_theta);
+        pd_builder,
+        pd_builder,
+        pd_builder,
+        pd_builder);
 
     pdController = controller;
 }
