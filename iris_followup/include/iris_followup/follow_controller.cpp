@@ -9,6 +9,7 @@ Follow_Controller::Follow_Controller()
 
     PID::Builder builder;
 
+    builder = builder.setConditionalIntegration(true);
     TelloCascadePDPIController controller(
         builder, builder,
         builder, builder,
