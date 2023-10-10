@@ -121,8 +121,8 @@ geometry_msgs::Twist Follow_Controller::get_velocity(geometry_msgs::PoseStamped 
 double Follow_Controller::calc_vel(double valor_in)
 {
     const double MAX = 1.5;   // Valor máximo permitido
-    const double MIN = 0.1;   // Valor mínimo permitido
-    double valorRetorno = 0.6; // Valor a ser retornado
+    const double MIN = 0.3;   // Valor mínimo permitido
+    double valorRetorno = 0.4; // Valor a ser retornado
     double return_value;
     double valor = valor_in;
     if(valor_in < 0)
