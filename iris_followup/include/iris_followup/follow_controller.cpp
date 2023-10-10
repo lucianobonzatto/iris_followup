@@ -8,6 +8,7 @@ Follow_Controller::Follow_Controller()
     pose_setpoint.theta = 0;
 
     PID::Builder builder;
+    builder = builder.setConditionalIntegration(true);
 
     TelloParallelPDPIController controller(
         builder, builder,

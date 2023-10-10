@@ -87,7 +87,7 @@ public:
     private:
         // Builder's private members are the parameters to be used in the PID object.
         double Kp = 0.0, Ki = 0.0, Kd = 0.0, Kf = 0.0, dt = 0.025, out_max = 255.0, out_min = -255.0;
-        bool derivative_on_measurement = false, conditional_integration = false, feedforward_enabled = false, angular_input = false;
+        bool derivative_on_measurement = false, conditional_integration = true, feedforward_enabled = false, angular_input = false;
 
     public:
         // The Builder's public methods are setters for each of its private members.
