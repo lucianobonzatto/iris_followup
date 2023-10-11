@@ -15,22 +15,19 @@ def plot_grafico3d(controller, mv):
     iris_pose = ler_csv("log/csv/" + mv + "/" + controller + "/iris_pose.csv")
     magni_pose = ler_csv("log/csv/" + mv + "/" + controller + "/magni_pose.csv")
 
-    iris_pose["Z Position"] = iris_pose["Z Position"] + 0.25
-    iris_pose.to_csv("teste.csv")
 
 
+mvs = ['line', 'sqr']
+controllers = ['pd', 'cascade', 'paralel']
 
 
+for mv in mvs:
+    for controller in controllers:
+        iris = "log/csv/" + mv + "/" + controller + "/iris_pose.csv"
+        magni = "log/csv/" + mv + "/" + controller + "/magni_pose.csv"
 
+        iris_pose = ler_csv(iris)
+        magni_pose = ler_csv(magni)
 
-controller = ['pd', 'cascade', 'paralel']
+        
 
-# plot_grafico3d(ax1, controller[0], 'line')
-# plot_grafico3d(ax2, controller[1], 'line')
-plot_grafico3d(controller[2], 'line')
-# plot_grafico3d(ax4, controller[0], 'sqr')
-# plot_grafico3d(ax5, controller[1], 'sqr')
-# plot_grafico3d(controller[2], 'sqr')
-
-# plt.subplots_adjust(left=0, bottom=0.05, right=0.97, top=1, wspace=0.17, hspace=0.2)
-# plt.show()
