@@ -17,6 +17,36 @@ def plot_grafico2d(ax, controller):
     iris_pose["Time"] -= iris_pose["Time"][0]
     magni_pose["Time"] -= magni_pose["Time"][0]
 
+    if controller == "pd":
+        i = 0
+        while i < len(iris_pose["Time"]):
+            if((iris_pose["Time"][i] > 20) and (iris_pose["Time"][i] < 30.5)):
+                if(iris_pose["yaw"][i] > 0):
+                    iris_pose["yaw"][i] = -iris_pose["yaw"][i]
+            i = i + 1
+
+        i = 0
+        while i < len(magni_pose["Time"]):
+            if((magni_pose["Time"][i] > 20) and (magni_pose["Time"][i] < 28)):
+                if(magni_pose["yaw"][i] > 0):
+                    magni_pose["yaw"][i] = -magni_pose["yaw"][i]
+            i = i + 1
+
+    if controller == "cascade":
+        i = 0
+        while i < len(iris_pose["Time"]):
+            if((iris_pose["Time"][i] > 20) and (iris_pose["Time"][i] < 29.55)):
+                if(iris_pose["yaw"][i] > 0):
+                    iris_pose["yaw"][i] = -iris_pose["yaw"][i]
+            i = i + 1
+
+        i = 0
+        while i < len(magni_pose["Time"]):
+            if((magni_pose["Time"][i] > 20) and (magni_pose["Time"][i] <= 29.15)):
+                if(magni_pose["yaw"][i] > 0):
+                    magni_pose["yaw"][i] = -magni_pose["yaw"][i]
+            i = i + 1
+
     ax[0].plot(iris_pose["Time"].to_numpy(), iris_pose["X Position"].to_numpy(), c='b', label=f'iris')
     ax[0].plot(magni_pose["Time"].to_numpy(), magni_pose["X Position"].to_numpy(), c='r', label=f'magni')
     

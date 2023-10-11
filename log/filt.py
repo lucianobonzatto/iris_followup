@@ -29,5 +29,7 @@ for mv in mvs:
         iris_pose = ler_csv(iris)
         magni_pose = ler_csv(magni)
 
-        
+        iris_Z = iris_pose["Z Position"].to_numpy()
+        print(mv, controller, iris_Z.mean())
+
 
