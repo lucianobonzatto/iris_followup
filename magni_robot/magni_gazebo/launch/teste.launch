@@ -1,0 +1,53 @@
+<launch>
+
+    <!-- 
+    This string will be taken to search for camera extrinsics yaml file like 
+    $(find magni_description)/extrinsics/camera_extrinsics_$(arg camera_position).yaml
+    so if that yaml file does not exsist, the xacro file will return "No such file or directory" error
+    -->
+    <arg name="camera_position" default="forward"/> 
+    
+    <!-- 
+    This string will be taken to search for lidar extrinsics yaml file like 
+    $(find magni_description)/extrinsics/lidar_extrinsics_$(arg lidar_position).yaml
+    so if that yaml file does not exsist, the xacro file will return "No such file or directory" error
+    -->
+    <arg name="lidar_position" default="top_plate"/>
+    
+    <!-- Weather the sonar sensors are installed on the robot -->
+    <arg name="sonars_installed" default="true"/>
+
+    <!-- Weather the tower is installed on the robot -->
+    <arg name="shell_installed" default="false"/>
+
+    <!-- Weather the tower is installed on the robot -->
+    <arg name="tower_installed" default="false"/>
+
+    <arg name="rviz_config" default="true" />
+
+    <!-- load empty world -->
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false" />
+    <arg name="debug" default="false" />
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+
+    <!-- start robot -->
+    <include file="$(find magni_gazebo)/launch/magni.launch">
+        <arg name="camera_position" value="$(arg camera_position)"/>
+        <arg name="sonars_installed" value="$(arg sonars_installed)"/>
+        <arg name="lidar_position" value="$(arg lidar_position)"/>
+        <arg name="tower_installed" value="$(arg tower_installed)"/>
+        <arg name="shell_installed" value="$(arg shell_installed)"/>
+    </include>
+
+    <!-- GUI for robot control via 'cmd_vel' topic -->
+    <node pkg="rqt_robot_steering" type="rqt_robot_steering" name="magni_rqt_teleop">
+        <param name="default_topic" type="str" value="/ubiquity_velocity_controller/cmd_vel"/>
+        <param name="default_vx_max" type="double" value="0.8" />
+        <param name="default_vx_min" type="double" value="-0.8" />
+        <param name="default_vw_max" type="double" value="1.5" />
+        <param name="default_vw_min" type="double" value="-1.5" />
+    </node>
+
+</launch>
