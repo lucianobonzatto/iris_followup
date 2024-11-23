@@ -14,9 +14,20 @@ https://github.com/piradata/wpg
 
 https://github.com/piradata/PX4-Autopilot
 
+
+### install
+
 ```
 mkdir -p ~/src/
 cd ~/src/
 git clone https://github.com/piradata/PX4-Autopilot.git Firmware
 cd Firmware/
+make px4_sitl gazebo_iris
+```
+
+### run
+```
+cd ~/src/Firmware/
+make px4_sitl gazebo_iris
+roslaunch mavros px4.launch fcu_url:='udp://:14550@127.0.0.1:14555'
 ```
