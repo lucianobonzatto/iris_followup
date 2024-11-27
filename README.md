@@ -8,6 +8,8 @@ editar o arquivo em
 src/Firmware/Tools/sitl_run.sh
 
 src/Firmware/Tools/sitl_gazebo/models/iris/iris.sdf
+
+src/Firmware/Tools/sitl_gazebo/models/fpv_cam/fpv_cam.sdf
 ```
 
 https://github.com/piradata/wpg
