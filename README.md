@@ -20,6 +20,13 @@ https://github.com/piradata/PX4-Autopilot
 ### install
 
 ```
+sudo apt install liblzma-dev lzma
+pip3 install toml numpy packaging jinja2
+sudo apt install libgstreamer1.0-dev
+sudo apt install genromfs ninja-build exiftool astyle
+sudo apt install libgstreamer-plugins-base1.0-dev
+```
+```
 mkdir -p ~/src/
 cd ~/src/
 git clone https://github.com/piradata/PX4-Autopilot.git Firmware
